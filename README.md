@@ -564,6 +564,18 @@ Methods noted having options have parameters that may be *optional* or *required
 }
 ```
 
+### wallet.api.getMnemonicSeed(options)
+
+#### Parameters
+
+```options.address```: Public Wallet Address - *required*
+
+#### Example Data
+
+```text
+river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop veered truth wield stacking tattoo unplugs oven wipeout aptitude estate dazed observant oxygen oxygen
+```
+
 ### wallet.api.getStatus()
 
 #### Example Data
