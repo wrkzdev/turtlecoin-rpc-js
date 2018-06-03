@@ -52,7 +52,7 @@ const wallet = new Walletd({
 
 ## TurtleCoind RPC API Interface
 
-As we can actually run this wrapper inside another nodeJS project, we expose all of the TurtleCoind RPC API commands via the ```daemon.api``` property. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the TurtleCoind RPC API commands via the ```TurtleCoind``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
@@ -527,7 +527,7 @@ Gets a block hash by height.
 
 ## Walletd RPC API Interface
 
-As we can actually run this wrapper inside another nodeJS project, we expose all of the walletd RPC API commands via the ```wallet.api``` property. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the walletd RPC API commands via the ```Walletd``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 ***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE THEM AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
 
