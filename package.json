@@ -1,0 +1,28 @@
+{
+  "name": "turtlecoin-rpc",
+  "version": "0.5.0",
+  "description": "TurtleCoin RPC API Interface in NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandonlehmann/turtlecoin-rpc.git"
+  },
+  "keywords": [
+    "TurtleCoin",
+    "RPC",
+    "API"
+  ],
+  "author": "Brandon Lehmann <brandonlehmann@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/brandonlehmann/turtlecoin-rpc/issues"
+  },
+  "homepage": "https://github.com/brandonlehmann/turtlecoin-rpc#readme",
+  "dependencies": {
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  }
+}
