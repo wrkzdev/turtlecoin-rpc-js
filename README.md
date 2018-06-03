@@ -56,7 +56,7 @@ We expose all of the TurtleCoind RPC API commands via the ```TurtleCoind``` inte
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
-### daemon.api.getBlocks(options)
+### daemon.getBlocks(options)
 
 Returns information on the last 30 blocks before *height* (inclusive).
 
@@ -93,7 +93,7 @@ Returns information on the last 30 blocks before *height* (inclusive).
 ]
 ```
 
-### daemon.api.getBlock(options)
+### daemon.getBlock(options)
 
 Returns information on a single block
 
@@ -170,7 +170,7 @@ Returns information on a single block
 }
 ```
 
-### daemon.api.getTransaction(options)
+### daemon.getTransaction(options)
 
 Gets information on the single transaction.
 
@@ -269,7 +269,7 @@ Gets information on the single transaction.
 }
 ```
 
-### daemon.api.getTransactionPool()
+### daemon.getTransactionPool()
 
 Gets the list of transaction hashs in the mempool.
 
@@ -322,7 +322,7 @@ Gets the list of transaction hashs in the mempool.
 ]
 ```
 
-### daemon.api.getBlockCount()
+### daemon.getBlockCount()
 
 Gets the current block count
 
@@ -332,7 +332,7 @@ Gets the current block count
 502322
 ```
 
-### daemon.api.getBlockHash(options)
+### daemon.getBlockHash(options)
 
 Gets a block hash by height.
 
@@ -344,7 +344,7 @@ Gets a block hash by height.
 74a45602da61b8b8ff565b1c81c854416046a23ca53f4416684ffaa60bc50796
 ```
 
-### daemon.api.getBlockTemplate(options)
+### daemon.getBlockTemplate(options)
 
 ```options.reserveSize``` Reserve size - *required*
 ```options.walletAddress``` Public Wallet Address - *required*
@@ -361,7 +361,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.submitBlock(options)
+### daemon.submitBlock(options)
 
 ```options.blockBlob``` The block blob data - *required*
 
@@ -373,7 +373,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getLastBlockHeader()
+### daemon.getLastBlockHeader()
 
 #### Sample Data
 
@@ -398,7 +398,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getBlockHeaderByHash(options)
+### daemon.getBlockHeaderByHash(options)
 
 ```options.hash``` Block hash - *required*
 
@@ -425,7 +425,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getBlockHeaderByHeight(options)
+### daemon.getBlockHeaderByHeight(options)
 
 ```options.height``` Block height - *required*
 
@@ -452,7 +452,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getCurrencyId()
+### daemon.getCurrencyId()
 
 #### Sample Data
 
@@ -460,7 +460,7 @@ Gets a block hash by height.
 7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c
 ```
 
-### daemon.api.getHeight()
+### daemon.getHeight()
 
 #### Sample Data
 
@@ -472,7 +472,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getInfo()
+### daemon.getInfo()
 
 #### Sample Data
 
@@ -496,7 +496,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getTransactions()
+### daemon.getTransactions()
 
 #### Sample Data
 
@@ -508,7 +508,7 @@ Gets a block hash by height.
 }
 ```
 
-### daemon.api.getPeers()
+### daemon.getPeers()
 
 #### Sample Data
 
@@ -535,11 +535,11 @@ Unless otherwise noted, all methods will resolve the promise upon success and sa
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
-### wallet.api.reset()
+### wallet.reset()
 
-### wallet.api.save()
+### wallet.save()
 
-### wallet.api.getViewKey()
+### wallet.getViewKey()
 
 #### Example Data
 
@@ -549,7 +549,7 @@ Methods noted having options have parameters that may be *optional* or *required
 }
 ```
 
-### wallet.api.getSpendKeys(options)
+### wallet.getSpendKeys(options)
 
 #### Parameters
 
@@ -564,7 +564,7 @@ Methods noted having options have parameters that may be *optional* or *required
 }
 ```
 
-### wallet.api.getMnemonicSeed(options)
+### wallet.getMnemonicSeed(options)
 
 #### Parameters
 
@@ -576,7 +576,7 @@ Methods noted having options have parameters that may be *optional* or *required
 river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop veered truth wield stacking tattoo unplugs oven wipeout aptitude estate dazed observant oxygen oxygen
 ```
 
-### wallet.api.getStatus()
+### wallet.getStatus()
 
 #### Example Data
 
@@ -589,7 +589,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.getAddresses()
+### wallet.getAddresses()
 
 #### Example Data
 
@@ -600,7 +600,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 ]
 ```
 
-### wallet.api.createAddress(options)
+### wallet.createAddress(options)
 
 #### Parameters
 
@@ -618,13 +618,13 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.deleteAddress(options)
+### wallet.deleteAddress(options)
 
 #### Parameters
 
 ```options.address```: Public address to delete - *required*
 
-### wallet.api.getBalance(options)
+### wallet.getBalance(options)
 
 #### Parameters
 
@@ -639,7 +639,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.getBlockHashes(options)
+### wallet.getBlockHashes(options)
 
 #### Parameters
 
@@ -666,7 +666,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.getTransactionHashes(options)
+### wallet.getTransactionHashes(options)
 
 #### Parameters
 
@@ -697,7 +697,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.getTransactions(options)
+### wallet.getTransactions(options)
 
 #### Parameters
 
@@ -737,7 +737,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 ]
 ```
 
-### wallet.api.getUnconfirmedTransactionHashes(options)
+### wallet.getUnconfirmedTransactionHashes(options)
 
 #### Parameters
 
@@ -754,7 +754,7 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.getTransaction(options)
+### wallet.getTransaction(options)
 
 ***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE AMOUNTS AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
 
@@ -798,13 +798,13 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 }
 ```
 
-### wallet.api.newTransfer(address, amount)
+### wallet.newTransfer(address, amount)
 
-This method creates a transfer object designed to be used with *wallet.api.sendTransaction*
+This method creates a transfer object designed to be used with *wallet.sendTransaction*
 
 ***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
 
-### wallet.api.sendTransaction(options)
+### wallet.sendTransaction(options)
 
 ***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
 
@@ -812,7 +812,7 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 
 ```options.addresses```: Array of addresses to use for the *inputs* - *optional*
 
-```options.transfers```: Array of transfer objects (see *wallet.api.newTransfer*) to send funds to - *required*
+```options.transfers```: Array of transfer objects (see *wallet.newTransfer*) to send funds to - *required*
 
 ```options.fee```: Fee we are willing to pay for the transaction. Ex: 0.1 - *optional*
 
@@ -834,7 +834,7 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 }
 ```
 
-### wallet.api.createDelayedTransaction(options)
+### wallet.createDelayedTransaction(options)
 
 ***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
 
@@ -842,7 +842,7 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 
 ```options.addresses```: Array of addresses to use for the *inputs* - *optional*
 
-```options.transfers```: Array of transfer objects (see *wallet.api.newTransfer*) to send funds to - *required*
+```options.transfers```: Array of transfer objects (see *wallet.newTransfer*) to send funds to - *required*
 
 ```options.fee```: Fee we are willing to pay for the transaction. Ex: 0.1 - *optional*
 
@@ -864,7 +864,7 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 }
 ```
 
-### wallet.api.getDelayedTransactionHashes()
+### wallet.getDelayedTransactionHashes()
 
 #### Example Data
 
@@ -877,19 +877,19 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 }
 ```
 
-### wallet.api.deleteDelayedTransaction(options)
+### wallet.deleteDelayedTransaction(options)
 
 #### Parameters
 
 ```options.transactionHash```: The hash of the transaction - *required*
 
-### wallet.api.sendDelayedTransaction()
+### wallet.sendDelayedTransaction()
 
 #### Parameters
 
 ```options.transactionHash```: The hash of the transaction - *required*
 
-### wallet.api.sendFusionTransaction(options)
+### wallet.sendFusionTransaction(options)
 
 #### Parameters
 
@@ -911,7 +911,7 @@ This method creates a transfer object designed to be used with *wallet.api.sendT
 }
 ```
 
-### wallet.api.estimateFusion(options)
+### wallet.estimateFusion(options)
 
 #### Parameters
 
