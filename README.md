@@ -60,7 +60,21 @@ Methods noted having options have parameters that may be *optional* or *required
 
 Returns information on the last 30 blocks before *height* (inclusive).
 
-```options.height``` The height of the blockchain to start at - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|height|Yes|The height of the blockchain to start at|integer|
+
+#### Example Code
+
+```javascript
+daemon.getBlocks({
+  height: 500000
+}).then((blocks) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -97,7 +111,21 @@ Returns information on the last 30 blocks before *height* (inclusive).
 
 Returns information on a single block
 
-```options.hash``` Block hash of the block you wish to retrieve - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|hash|Yes|Block hash of the block you wish to retrieve|string|
+
+#### Example Code
+
+```javascript
+daemon.getBlock({
+  hash: 'f11580d74134ac34673c74f8da458080aacbe1eccea05b197e9d10bde05139f5'
+}).then((block) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -174,7 +202,21 @@ Returns information on a single block
 
 Gets information on the single transaction.
 
-```options.hash``` The transaction hash - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|hash|Yes|The transaction hash|integer|
+
+#### Example Code
+
+```javascript
+daemon.getTransaction({
+  hash: '702ad5bd04b9eff14b080d508f69a320da1909e989d6c163c18f80ae7a5ab832'
+}).then((transaction) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -273,6 +315,14 @@ Gets information on the single transaction.
 
 Gets the list of transaction hashs in the mempool.
 
+#### Example Code
+
+```javascript
+daemon.getTransactionPool().then((transactions) => {
+  // do something
+})
+```
+
 #### Sample Data
 
 ```javascript
@@ -326,6 +376,14 @@ Gets the list of transaction hashs in the mempool.
 
 Gets the current block count
 
+#### Example Code
+
+```javascript
+daemon.getBlockCount().then((blockCount) => {
+  // do something
+})
+```
+
 #### Sample Data
 
 ```javascript
@@ -336,7 +394,21 @@ Gets the current block count
 
 Gets a block hash by height.
 
-```options.height``` The height of the block - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|height|Yes|The height of the block|integer|
+
+#### Example Code
+
+```javascript
+daemon.getBlockHash({
+  height: 500000
+}).then((blockHash) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -346,8 +418,23 @@ Gets a block hash by height.
 
 ### daemon.getBlockTemplate(options)
 
-```options.reserveSize``` Reserve size - *required*
-```options.walletAddress``` Public Wallet Address - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|reserveSize|Yes|Block reserve size|integer|
+|walletAddress|Yes|Public Wallet Address|string|
+
+#### Example Code
+
+```javascript
+daemon.getBlockTemplate({
+  reserveSize: 200,
+  walletAddress: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((blockTemplate) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -363,7 +450,21 @@ Gets a block hash by height.
 
 ### daemon.submitBlock(options)
 
-```options.blockBlob``` The block blob data - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockBlob|Yes|Block blob data from miner|string|
+
+#### Example Code
+
+```javascript
+daemon.submitBlock({
+  blockBlob: '...'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -374,6 +475,14 @@ Gets a block hash by height.
 ```
 
 ### daemon.getLastBlockHeader()
+
+#### Example Code
+
+```javascript
+daemon.getLastBlockHeader().then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -400,7 +509,21 @@ Gets a block hash by height.
 
 ### daemon.getBlockHeaderByHash(options)
 
-```options.hash``` Block hash - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|hash|Yes|The block hash to find|string|
+
+#### Example Code
+
+```javascript
+daemon.getBlockHeaderByHash({
+  hash: '7d6db7b77232d41c19d898e81c85ecf08c4e8dfa3434f975a319f6261a695739'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -427,7 +550,21 @@ Gets a block hash by height.
 
 ### daemon.getBlockHeaderByHeight(options)
 
-```options.height``` Block height - *required*
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|height|Yes|The block height to find|string|
+
+#### Example Code
+
+```javascript
+daemon.getBlockHeaderByHeight({
+  height: 502345
+}).then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -454,6 +591,14 @@ Gets a block hash by height.
 
 ### daemon.getCurrencyId()
 
+#### Example Code
+
+```javascript
+daemon.getCurrencyId().then((result) => {
+  // do something
+})
+```
+
 #### Sample Data
 
 ```text
@@ -461,6 +606,14 @@ Gets a block hash by height.
 ```
 
 ### daemon.getHeight()
+
+#### Example Code
+
+```javascript
+daemon.getHeight().then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -473,6 +626,14 @@ Gets a block hash by height.
 ```
 
 ### daemon.getInfo()
+
+#### Example Code
+
+```javascript
+daemon.getInfo().then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -498,6 +659,14 @@ Gets a block hash by height.
 
 ### daemon.getTransactions()
 
+#### Example Code
+
+```javascript
+daemon.getTransactions().then((result) => {
+  // do something
+})
+```
+
 #### Sample Data
 
 ```javascript
@@ -509,6 +678,14 @@ Gets a block hash by height.
 ```
 
 ### daemon.getPeers()
+
+#### Example Code
+
+```javascript
+daemon.getPeers().then((result) => {
+  // do something
+})
+```
 
 #### Sample Data
 
@@ -529,17 +706,49 @@ Gets a block hash by height.
 
 We expose all of the walletd RPC API commands via the ```Walletd``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
-***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE THEM AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
+***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE THEM AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
 Unless otherwise noted, all methods will resolve the promise upon success and sample return data is supplied below. Any errors will reject the promise with an error condition.
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
-### wallet.reset()
+### wallet.reset(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|viewSecretKey|No|The secret key to reset|string|
+
+#### Example Code
+
+```javascript
+wallet.reset({
+  viewSecretKey: '12345678901234567890'
+}).then(() => {
+  // do something
+})
+```
 
 ### wallet.save()
 
+#### Example Code
+
+```javascript
+wallet.save().then(() => {
+  // do something
+})
+```
+
 ### wallet.getViewKey()
+
+#### Example Code
+
+```javascript
+wallet.getViewKey().then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -551,9 +760,21 @@ Methods noted having options have parameters that may be *optional* or *required
 
 ### wallet.getSpendKeys(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.address```: Public Wallet Address - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|address|Yes|Public wallet address|string|
+
+#### Example Code
+
+```javascript
+wallet.getSpendKeys({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -566,9 +787,21 @@ Methods noted having options have parameters that may be *optional* or *required
 
 ### wallet.getMnemonicSeed(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.address```: Public Wallet Address - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|address|Yes|Public wallet address|string|
+
+#### Example Code
+
+```javascript
+wallet.getMnemonicSeed({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -577,6 +810,14 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 ```
 
 ### wallet.getStatus()
+
+#### Example Code
+
+```javascript
+wallet.getStatus().then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -591,6 +832,14 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getAddresses()
 
+#### Example Code
+
+```javascript
+wallet.getAddresses().then((result) => {
+  // do something
+})
+```
+
 #### Example Data
 
 ```javascript
@@ -602,13 +851,25 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.createAddress(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.secretSpendKey```: Address secret spend key - *optional*
-
-```options.publicSpendKey```: Address public spend key - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|secretSpendKey|No|Address secret spend key|string|
+|publicSpendKey|No|Address public spend key|string|
 
 **Note:** Both ```secretSpendKey``` and ```publicSpendKey``` are optional; however, you can only supply one or the other. Both are given below as **examples**.
+
+#### Example Code
+
+```javascript
+wallet.createAddress({
+  secretSpendKey: 'c6639a75a37f63f92e2f096fa262155c943b4fdc243ffb02b8178ab960bb5d0f',
+  publicSpendKey: '9e50b808f1e2522b7c6feddd8e2f6cdcd89ff33b623412de2061d78c84588eff33b6d9'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -620,15 +881,39 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.deleteAddress(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.address```: Public address to delete - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|address|No|Public wallet address|string|
+
+#### Example Code
+
+```javascript
+wallet.deleteAddress({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 ### wallet.getBalance(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.address```: Public address - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|address|No|Public wallet address|string|
+
+#### Example Code
+
+```javascript
+wallet.getBalance({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -641,11 +926,23 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getBlockHashes(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.firstBlockIndex```: The height to start with - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|firstBlockIndex|Yes|The height of the blockchain to start at|integer|
+|blockCount|Yes|How many blocks to return at maximum|integer|
 
-```options.blockCount```: How many blocks to return at maximum - *required*
+#### Example Code
+
+```javascript
+wallet.getBlockHashes({
+  firstBlockIndex: 500000,
+  blockCount: 10
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -668,19 +965,32 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getTransactionHashes(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.addresses```: Array of public addresses to scan for - *optional*
-
-```options.blockHash```: Block hash to scan *optional/required*
-
-```options.firstBlockIndex```: The height to start with - *optional/required*
-
-```options.blockCount```: How many blocks to return at maximum - *required*
-
-```options.paymendId```: Payment ID to scan for - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|addresses|No|Array of public wallet addresses|strings|
+|blockHash|No|Block hash to scan|string|
+|firstBlockIndex|No|The height of the blockchain to start at|integer|
+|blockCount|Yes|How many blocks to return at maximum|integer|
+|paymentId|No|Payment ID to scan for|string|
 
 ***Note:*** Only **one** of either ```blockHash``` or ```firstBlockIndex``` may be supplied, but not both.
+
+#### Example Code
+
+```javascript
+wallet.getTransactionHashes({
+  addresses: [
+    "TRTLux9QBmzCYEGgdWXHEQCAm6vY9vZHkbGmx8ev5LxhYk8N71Pp7PWFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJZ25i9n",
+    "TRTLv1mPerM2ckUuNvxrkzDE7QKd9PFVUXYbVfbvx8YxB5BYEdSqQvUFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJbQMVgF"
+  ],
+  blockHash: 'f98d6bbe80a81b3aa0aebd004096e2223524f58f347a1f21be122450f244b948',
+  blockCount: 1
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -699,19 +1009,32 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getTransactions(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.addresses```: Array of public addresses to scan for - *optional*
-
-```options.blockHash```: Block hash to scan *optional/required*
-
-```options.firstBlockIndex```: The height to start with - *optional/required*
-
-```options.blockCount```: How many blocks to return at maximum - *required*
-
-```options.paymendId```: Payment ID to scan for - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|addresses|No|Array of public wallet addresses|strings|
+|blockHash|No|Block hash to scan|string|
+|firstBlockIndex|No|The height of the blockchain to start at|integer|
+|blockCount|Yes|How many blocks to return at maximum|integer|
+|paymentId|No|Payment ID to scan for|string|
 
 ***Note:*** Only **one** of either ```blockHash``` or ```firstBlockIndex``` may be supplied, but not both.
+
+#### Example Code
+
+```javascript
+wallet.getTransactions({
+  addresses: [
+    "TRTLux9QBmzCYEGgdWXHEQCAm6vY9vZHkbGmx8ev5LxhYk8N71Pp7PWFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJZ25i9n",
+    "TRTLv1mPerM2ckUuNvxrkzDE7QKd9PFVUXYbVfbvx8YxB5BYEdSqQvUFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJbQMVgF"
+  ],
+  firstBlockIndex: 469419,
+  blockCount: 1
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -739,9 +1062,21 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getUnconfirmedTransactionHashes(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.addresses```: Array of public address to scan for - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|addresses|No|Array of public wallet addresses|strings|
+
+#### Example Code
+
+```javascript
+wallet.getUnconfirmedTransactionHashes({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -756,11 +1091,23 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 ### wallet.getTransaction(options)
 
-***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE AMOUNTS AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
+***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE AMOUNTS AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
-#### Parameters
+#### Method Parameters
 
-```options.transactionHash```: The hash of the transaction - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHash|Yes|The hash of the transaction|string|
+
+#### Example Code
+
+```javascript
+wallet.getTransaction({
+  transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -802,29 +1149,46 @@ river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop ve
 
 This method creates a transfer object designed to be used with *wallet.sendTransaction*
 
-***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
+***Note: This method does NOT return a promise.***
+
+***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
+
+#### Example Code
+
+```javascript
+var transfer = wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+```
 
 ### wallet.sendTransaction(options)
 
-***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
+***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
-#### Parameters
+#### Method Parameters
 
-```options.addresses```: Array of addresses to use for the *inputs* - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|addresses|No|Array of public wallet addresses|strings|
+|transfers|Yes|Array of transfer objects (see *wallet.newTransfer*) to send funds to|newTransfer|
+|fee|No|Transaction fee for the transaction|float|
+|unlockTime|No|Blockheight ot unlock the transaction at, the UTC timestamp, or ```0``` for now.|integer|
+|mixin|No|The number of mixins to use|integer|
+|extra|No|Extra data to put in the transaction|string|
+|paymentId|No|The payment ID for the transaction|string|
+|changeAddress|No|Where to send any change from the transaction. If not specified, the first address in the wallet container is used.|string|
 
-```options.transfers```: Array of transfer objects (see *wallet.newTransfer*) to send funds to - *required*
+#### Example Code
 
-```options.fee```: Fee we are willing to pay for the transaction. Ex: 0.1 - *optional*
-
-```options.unlockTime```: Blockheight to unlock the transaction at, the UTC timestamp, or ```0``` for now. - *optional*
-
-```options.mixin```: Mixins to use - *optional*
-
-```options.extra```: Extra data to put in the transaction - *optional*
-
-```options.paymentId```: The payment ID for the transaction - *optional*
-
-```options.changeAddress```: Where to send any change from the transaction to. If not specified, the first address in the wallet container is used. - *optional*
+```javascript
+wallet.sendTransaction({
+  transfers: [
+    wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+  ],
+  fee: 0.1,
+  mixin: 7,
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -836,25 +1200,34 @@ This method creates a transfer object designed to be used with *wallet.sendTrans
 
 ### wallet.createDelayedTransaction(options)
 
-***Special Note: Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.***
+***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
-#### Parameters
+#### Method Parameters
 
-```options.addresses```: Array of addresses to use for the *inputs* - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|addresses|No|Array of public wallet addresses|strings|
+|transfers|Yes|Array of transfer objects (see *wallet.newTransfer*) to send funds to|newTransfer|
+|fee|No|Transaction fee for the transaction|float|
+|unlockTime|No|Blockheight ot unlock the transaction at, the UTC timestamp, or ```0``` for now.|integer|
+|mixin|No|The number of mixins to use|integer|
+|extra|No|Extra data to put in the transaction|string|
+|paymentId|No|The payment ID for the transaction|string|
+|changeAddress|No|Where to send any change from the transaction. If not specified, the first address in the wallet container is used.|string|
 
-```options.transfers```: Array of transfer objects (see *wallet.newTransfer*) to send funds to - *required*
+#### Example Code
 
-```options.fee```: Fee we are willing to pay for the transaction. Ex: 0.1 - *optional*
-
-```options.unlockTime```: Blockheight to unlock the transaction at, the UTC timestamp, or ```0``` for now. - *optional*
-
-```options.mixin```: Mixins to use - *optional*
-
-```options.extra```: Extra data to put in the transaction - *optional*
-
-```options.paymentId```: The payment ID for the transaction - *optional*
-
-```options.changeAddress```: Where to send any change from the transaction to. If not specified, the first address in the wallet container is used. - *optional*
+```javascript
+wallet.createDelayedTransaction({
+  transfers: [
+    wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+  ],
+  fee: 0.1,
+  mixin: 7,
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -865,6 +1238,14 @@ This method creates a transfer object designed to be used with *wallet.sendTrans
 ```
 
 ### wallet.getDelayedTransactionHashes()
+
+#### Example Code
+
+```javascript
+wallet.getDelayedTransactionHashes().then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -879,29 +1260,63 @@ This method creates a transfer object designed to be used with *wallet.sendTrans
 
 ### wallet.deleteDelayedTransaction(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.transactionHash```: The hash of the transaction - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHash|Yes|The hash of the transaction|string|
+
+#### Example Code
+
+```javascript
+wallet.deleteDelayedTransaction({
+  transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
+}).then((result) => {
+  // do something
+})
+```
 
 ### wallet.sendDelayedTransaction()
 
-#### Parameters
+#### Method Parameters
 
-```options.transactionHash```: The hash of the transaction - *required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHash|Yes|The hash of the transaction|string|
+
+#### Example Code
+
+```javascript
+wallet.sendDelayedTransaction({
+  transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
+}).then((result) => {
+  // do something
+})
+```
 
 ### wallet.sendFusionTransaction(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.threshold```: The minimum fusion threshold amount - *optional*
-
-```options.mixin```: Mixins to use - *optional*
-
-```options.addresses```: Array of addresses to use for the *inputs* - *optional*
-
-```options.destinationAddress```: The address to send the fusion transaction to - *optional/required*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|threshold|No|The minimum fusion threshold amount|integer|
+|mixin|No|The number of mixins to use|integer|
+|addresses|No|Array of public wallet addresses|strings|
+|destinationAddress|No|The address to send the fusion transaction to|string|
 
 ***Note:*** If the container has only one address or ```addressess``` consists of one address, then ```destinationAddress``` need not be supplied. Otherwise, ```destinationAddress``` is required.
+
+#### Example Code
+
+```javascript
+wallet.sendFusionTransaction({
+  mixin: 7,
+  destinationAddress: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
@@ -913,11 +1328,25 @@ This method creates a transfer object designed to be used with *wallet.sendTrans
 
 ### wallet.estimateFusion(options)
 
-#### Parameters
+#### Method Parameters
 
-```options.threshold```: The minimum fusion threshold amount - *optional*
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|threshold|No|The minimum fusion threshold amount|integer|
+|addresses|No|Array of public wallet addresses|strings|
 
-```options.addresses```: Array of addresses to use for the *inputs* - *optional*
+#### Example Code
+
+```javascript
+wallet.estimateFusion({
+  threshold: 100000000,
+  addresses:[
+    'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
+  ]
+}).then((result) => {
+  // do something
+})
+```
 
 #### Example Data
 
