@@ -8,6 +8,7 @@ This project is designed to make it very easy to interact with various RPC APIs 
 2. [Intialization](#intialization)
 3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
 4. [Walletd RPC API Interface](#walletd-rpc-api-interface)
+5. [Client RPC API Interface](#client-rpc-api-interface)
 
 ## Installation
 
@@ -28,8 +29,7 @@ const daemon = new TurtleCoind({
 })
 ```
 
-### walletd
-
+### Walletd
 ```javascript
 const Walletd = require('turtlecoin-rpc').Walletd
 
@@ -47,6 +47,17 @@ const wallet = new Walletd({
   defaultFirstBlockIndex: 1, // the default first block index we will use when it is required
   defaultUnlockTime: 0, // the default unlockTime for transactions
   defaultFusionThreshold: 10000000, // the default fusionThreshold for fusion transactions
+})
+```
+
+### Client
+```javascript
+const Client = require('turtlecoin-rpc').Client
+
+const client = new Client({
+  host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
+  port: 11898, // what port is the RPC server running on
+  timeout: 2000 // requrest timeout
 })
 ```
 
@@ -1356,3 +1367,11 @@ wallet.estimateFusion({
   "totalOutputCount": 19
 }
 ```
+
+## Client RPC API Interface
+
+We expose all of the TurtleCoind Client RPC API commands via the ```Client``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+
+Methods noted having options have parameters that may be *optional* or *required* as documented.
+
+***Note:*** The client interface documentation is currently under construction.
