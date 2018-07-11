@@ -702,6 +702,26 @@ daemon.getPeers().then((result) => {
 }
 ```
 
+### daemon.feeInfo()
+
+#### Example Code
+
+```javascript
+daemon.feeInfo().then((result) => {
+  // do something
+})
+```
+
+#### Sample Data
+
+```javascript
+{
+  "address": "TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ",
+  "amount": 100,
+  "status": "OK"
+}
+```
+
 ## Walletd RPC API Interface
 
 We expose all of the walletd RPC API commands via the ```Walletd``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
