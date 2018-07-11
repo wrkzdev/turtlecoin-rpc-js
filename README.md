@@ -713,6 +713,26 @@ daemon.getPeers().then((result) => {
 }
 ```
 
+### daemon.feeInfo()
+
+#### Example Code
+
+```javascript
+daemon.feeInfo().then((result) => {
+  // do something
+})
+```
+
+#### Sample Data
+
+```javascript
+{
+  "address": "TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ",
+  "amount": 100,
+  "status": "OK"
+}
+```
+
 ## Walletd RPC API Interface
 
 We expose all of the walletd RPC API commands via the ```Walletd``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
@@ -1366,6 +1386,32 @@ wallet.estimateFusion({
   "fusionReadyCount": 0,
   "totalOutputCount": 19
 }
+```
+
+### wallet.createIntegratedAddress(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|address|Yes|The public wallet address|string|
+|paymentId|Yes|The paymentId to incorporate|string|
+
+#### Example Code
+
+```javascript
+wallet.createIntegratedAddress({
+  address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ',
+  paymentId: '80ec855eef7df4bce718442cabe086f19dfdd0d03907c7768eddb8eca8c5a667'
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+TRTLTyPSXMZB5j2wbztMzRXu2rVCuNVLUb4WKARRZY9ficYWshMDy7p4MXEz24mkyb4KFDVksDj41XTJ4DC3c7P2SfRg3r5q1ve9x7x5tK
 ```
 
 ## Client RPC API Interface
