@@ -1397,7 +1397,7 @@ Retrieves the last 100 (as defined in ) blocks from the first block hash supplie
 
 ```javascript
 client.queryBlocksLite({
-  blockIds: [
+  blockHashes: [
     '5b926d9fac41fbc53bf7c5ffc7e45e345f8c26aaefec9d3f9b019097a8827c12',
     '08aaf1b5cf2d7b62e12bd9182051225ccb1dabea9ee6847d969dbf60b08619af'
   ]
