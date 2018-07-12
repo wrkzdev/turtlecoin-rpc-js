@@ -25,7 +25,7 @@ const TurtleCoind = require('turtlecoin-rpc').TurtleCoind
 const daemon = new TurtleCoind({
   host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
   port: 11898, // what port is the RPC server running on
-  timeout: 2000 // requrest timeout
+  timeout: 2000 // request timeout
 })
 ```
 
@@ -57,7 +57,7 @@ const Client = require('turtlecoin-rpc').Client
 const client = new Client({
   host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
   port: 11898, // what port is the RPC server running on
-  timeout: 2000 // requrest timeout
+  timeout: 2000 // request timeout
 })
 ```
 
