@@ -8,6 +8,7 @@ This project is designed to make it very easy to interact with various RPC APIs 
 2. [Intialization](#intialization)
 3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
 4. [Walletd RPC API Interface](#walletd-rpc-api-interface)
+5. [Client RPC API Interface](#client-rpc-api-interface)
 
 ## Installation
 
@@ -28,8 +29,7 @@ const daemon = new TurtleCoind({
 })
 ```
 
-### walletd
-
+### Walletd
 ```javascript
 const Walletd = require('turtlecoin-rpc').Walletd
 
@@ -47,6 +47,17 @@ const wallet = new Walletd({
   defaultFirstBlockIndex: 1, // the default first block index we will use when it is required
   defaultUnlockTime: 0, // the default unlockTime for transactions
   defaultFusionThreshold: 10000000, // the default fusionThreshold for fusion transactions
+})
+```
+
+### Client
+```javascript
+const Client = require('turtlecoin-rpc').Client
+
+const client = new Client({
+  host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
+  port: 11898, // what port is the RPC server running on
+  timeout: 2000 // requrest timeout
 })
 ```
 
@@ -1401,4 +1412,1507 @@ wallet.createIntegratedAddress({
 
 ```javascript
 TRTLTyPSXMZB5j2wbztMzRXu2rVCuNVLUb4WKARRZY9ficYWshMDy7p4MXEz24mkyb4KFDVksDj41XTJ4DC3c7P2SfRg3r5q1ve9x7x5tK
+
+```
+
+## Client RPC API Interface
+
+We expose all of the TurtleCoind Client RPC API commands via the ```Client``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+
+Methods noted having options have parameters that may be *optional* or *required* as documented.
+
+### client.getBlocks(options)
+
+*Not implemented*
+
+### client.queryBlocks(options)
+
+*Not implemented*
+
+### client.queryBlocksLite(options)
+
+Retrieves the last 100 (as defined in ) blocks from the first block hash supplied in the requested array.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockHashes|Yes|The block hashes to query|strings|
+|timestamp|No|The timestamp to query|integer|
+
+#### Example Code
+
+```javascript
+client.queryBlocksLite({
+  blockHashes: [
+    '5b926d9fac41fbc53bf7c5ffc7e45e345f8c26aaefec9d3f9b019097a8827c12',
+    '08aaf1b5cf2d7b62e12bd9182051225ccb1dabea9ee6847d969dbf60b08619af'
+  ]
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+    "currentHeight": 612079,
+    "fullOffset": 602009,
+    "items": [
+        {
+            "blockShortInfo.block": [
+                4, 
+                0,
+                123,
+                173,
+                245,
+                37,
+                123,
+                64,
+                56,
+                108,
+                59,
+                95,
+                224
+            ],
+            "blockShortInfo.blockId": "08aaf1b5cf2d7b62e12bd9182051225ccb1dabea9ee6847d969dbf60b08619af",
+            "blockShortInfo.txPrefixes": [
+                {
+                    "transactionPrefixInfo.txHash": "5898af29be9af1bd70bd8abe0cc8adab7d1b824a8860de0833da5e9eb06cd4df",
+                    "transactionPrefixInfo.txPrefix": {
+                        "extra": "011dfaca5515269db2c4f7aa422e1064ed8b32deebfe09316f72c0558ec3c4bd8f022100f3bb994d0787998c710905ddea5e1cd40adc318f953570036e5bb003809bc41c",
+                        "unlock_time": 0,
+                        "version": 1,
+                        "vin": [
+                            {
+                                "type": "02",
+                                "value": {
+                                    "amount": 20000,
+                                    "k_image": "8227547d28430bd014891056997741e50a5bbef59f7ed69a61d73dd3c5e18519",
+                                    "key_offsets": [
+                                        489700,
+                                        7967,
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ]
+                                }
+                            }
+                        ],
+                        "vout": [
+                            {
+                                "amount": 800,
+                                "target": {
+                                    "data": {
+                                        "key": "ea4522afedd8e532d11e047409e7db76918a3f453706dfb61ed00e3aac54f76c"
+                                    },
+                                    "type": "02"
+                                }
+                            },
+                            {
+                                "amount": 7000,
+                                "target": {
+                                    "data": {
+                                        "key": "cbad8e84098579d5d58614ba4edcbdee13fe933cc5bc4d889bf741cd97e0fae4"
+                                    },
+                                    "type": "02"
+                                }
+                            },
+                            {
+                                "amount": 60000,
+                                "target": {
+                                    "data": {
+                                        "key": "d612ec8aacb4ee83b1b877d13126aea821117c0abf37102d5b11b56d55cfee33"
+                                    },
+                                    "type": "02"
+                                }
+                            },
+                            {
+                                "amount": 100000,
+                                "target": {
+                                    "data": {
+                                        "key": "0121221682026d807f8a13222395ac9b7e05ef059090dec83feb6abdc9bb4c3a"
+                                    },
+                                    "type": "02"
+                                }
+                            },
+                            {
+                                "amount": 40000000,
+                                "target": {
+                                    "data": {
+                                        "key": "8f4e23b602897c2b0643131166f674054977ed6fad645027537da7905691389b"
+                                    },
+                                    "type": "02"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "startHeight": 602009,
+    "status": "OK"
+}
+```
+
+### client.getIndexes(options)
+
+Returns the output indexes of the transaction
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHash|Yes|The transaction hash|string|
+
+#### Example Code
+
+```javascript
+client.getIndexes({
+  transactionHash: "749099c72571142234f0c8a5b394621576fac72b82507daa386a69519e210d9b"
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+{
+  "o_indexes": [
+    144422,
+    678884,
+    685376,
+    746333,
+    418673,
+    418674,
+    90455,
+    90456,
+    21042,
+    8445
+  ],
+  "status": "OK"
+}
+```
+
+### client.getRandomOutputs(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|amounts|Yes|The amounts for mixin in atomic units|integers|
+|mixin|Yes|The number of mixins to return for each amount|integer|
+
+#### Example Code
+
+```javascript
+client.getRandomOutputs({
+  amounts: [
+    100,
+    1000
+  ],
+  mixin: 3
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+{
+  "outs": [
+    {
+      "amount": 100,
+      "outs": [
+        {
+          "global_amount_index": 862926,
+          "out_key": "adcb0670f3709bb3380199f0f442e67a857da68917fde0b16d0bd7bb2672cb56"
+        },
+        {
+          "global_amount_index": 862927,
+          "out_key": "4c536a269ccfdd0b6211fb9303db842ac9e6ea166569f901bf3238d656701db6"
+        },
+        {
+          "global_amount_index": 862928,
+          "out_key": "7d38361739d054599893de18eab1055c451d7cf210684f761cf9f8f1862782dc"
+        }
+      ]
+    },
+    {
+      "amount": 1000,
+      "outs": [
+        {
+          "global_amount_index": 850191,
+          "out_key": "85682f46c02ecc071b1f98af39752ffc61162e107d7c837a4cde96b184c6c55a"
+        },
+        {
+          "global_amount_index": 850192,
+          "out_key": "27cfee9e182b61cfe34935f73f4ef54c323dee5766c7cae06c0d84b1e5cdf67f"
+        },
+        {
+          "global_amount_index": 850193,
+          "out_key": "80befdebea397133f14f64a941682dc174f4eb139cf4542a37362371f7f66c42"
+        }
+      ]
+    }
+  ],
+  "status": "OK"
+}
+```
+
+### client.getPoolChanges(options)
+
+Returns updates regarding the transaction mempool.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|tailBlockHash|Yes|The last known block ID|string|
+|knownTransactionHashes|Yes|The transaction hashes that we of|strings|
+
+#### Example Code
+
+```javascript
+client.getPoolChanges({
+  tailBlockHash: "410a8e6166a4582d592143c2a9bb062f6601712a7b7a99c0de71eebeb01d6521",
+  knownTransactionHashes: []
+}).then((result) => {
+  // do something
+})
+```
+
+***Note:*** Example data has been heavily truncated for display below.
+
+#### Example Data
+
+```javascript
+{
+  "addedTxs": [
+    {
+      "transactionPrefixInfo.txHash": "80060286cc4b46778e60a8b26a869719546c7c8b06de7ee16c01edc3e2774040",
+      "transactionPrefixInfo.txPrefix": {
+        "extra": "0122ee5a333e0bf7b7c8501a968a5ce1415f3b37c4312a779f2d704298a2ad3f12",
+        "unlock_time": 0,
+        "version": 1,
+        "vin": [
+          {
+            "type": "02",
+            "value": {
+              "amount": 900000,
+              "k_image": "d527587f9be05bd228f075b00965087597754be3a3953b15389a1965c0db390f",
+              "key_offsets": [
+                686585,
+                386,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "type": "02",
+            "value": {
+              "amount": 20000,
+              "k_image": "41dfa44fb452fdf3a84a647b7808c785011218d7743c4e1877a926bfcb27f404",
+              "key_offsets": [
+                517914,
+                312,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        ],
+        "vout": [
+          {
+            "amount": 50,
+            "target": {
+              "data": {
+                "key": "150c0265d7bd1af9c78d3bb4fa43a4e4b3347b61403c01e29d347b23b450d5fe"
+              },
+              "type": "02"
+            }
+          },
+          {
+            "amount": 100,
+            "target": {
+              "data": {
+                "key": "c5c0f3ffba4779e2a61778738f35fae11919bb087b0952e3ce334d157b7e7c17"
+              },
+              "type": "02"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "deletedTxsIds": [],
+  "isTailBlockActual": false,
+  "status": "OK"
+}
+```
+
+### client.getPoolChangesLite(options)
+
+Returns updates regarding the transaction mempool.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|tailBlockHash|Yes|The last known block ID|string|
+|knownTransactionHashes|Yes|The transaction hashes that we of|strings|
+
+#### Example Code
+
+```javascript
+client.getPoolChangesLite({
+  tailBlockHash: "410a8e6166a4582d592143c2a9bb062f6601712a7b7a99c0de71eebeb01d6521",
+  knownTransactionHashes: []
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "addedTxs": [
+    {
+      "transactionPrefixInfo.txHash": "80060286cc4b46778e60a8b26a869719546c7c8b06de7ee16c01edc3e2774040",
+      "transactionPrefixInfo.txPrefix": {
+        "extra": "0122ee5a333e0bf7b7c8501a968a5ce1415f3b37c4312a779f2d704298a2ad3f12",
+        "unlock_time": 0,
+        "version": 1,
+        "vin": [
+          {
+            "type": "02",
+            "value": {
+              "amount": 900000,
+              "k_image": "d527587f9be05bd228f075b00965087597754be3a3953b15389a1965c0db390f",
+              "key_offsets": [
+                686585,
+                386,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "type": "02",
+            "value": {
+              "amount": 20000,
+              "k_image": "41dfa44fb452fdf3a84a647b7808c785011218d7743c4e1877a926bfcb27f404",
+              "key_offsets": [
+                517914,
+                312,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        ],
+        "vout": [
+          {
+            "amount": 50,
+            "target": {
+              "data": {
+                "key": "150c0265d7bd1af9c78d3bb4fa43a4e4b3347b61403c01e29d347b23b450d5fe"
+              },
+              "type": "02"
+            }
+          },
+          {
+            "amount": 100,
+            "target": {
+              "data": {
+                "key": "c5c0f3ffba4779e2a61778738f35fae11919bb087b0952e3ce334d157b7e7c17"
+              },
+              "type": "02"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "deletedTxsIds": [],
+  "isTailBlockActual": false,
+  "status": "OK"
+}
+```
+
+### client.getBlockDetailsByHeight(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockHeight|Yes|The height of the block|integer|
+
+#### Example Code
+
+```javascript
+client.getBlockDetailsByHeight({
+  blockHeight: 600000
+}).then((result => {
+  // do something
+}))
+```
+
+#### Example Data
+
+```javascript
+{
+  "block": {
+    "alreadyGeneratedCoins": 1771716825122,
+    "alreadyGeneratedTransactions": 1305440,
+    "baseReward": 2927431,
+    "blockSize": 419,
+    "difficulty": 352722224,
+    "hash": "234266e7a2b03534df7d7a0b9403eeaabad316b86222575076c599f77c812200",
+    "index": 600000,
+    "majorVersion": 4,
+    "minorVersion": 0,
+    "nonce": 31311,
+    "prevBlockHash": "680fc502a073a637a4d4e61f6011fac2271ff9942975cce98a52a2bcf92c775a",
+    "reward": 2927431,
+    "sizeMedian": 300,
+    "timestamp": 1530957955,
+    "totalFeeAmount": 0,
+    "transactions": [
+      {
+        "blockHash": "234266e7a2b03534df7d7a0b9403eeaabad316b86222575076c599f77c812200",
+        "blockIndex": 600000,
+        "extra": {
+          "nonce": [
+            0,
+            0,
+            0,
+            1,
+            44,
+            181,
+            35,
+            112
+          ],
+          "publicKey": "83b89ff22edc8f1ed2cc80add101363695fb3ab30c9286c50c56241e5f8b67b5",
+          "raw": ""
+        },
+        "fee": 0,
+        "hash": "f33287faa27c979d360eb05dce1b9b64d6308b8328ab7ad7a1001a07838fc20f",
+        "inBlockchain": true,
+        "inputs": [
+          {
+            "data": {
+              "amount": 2927431,
+              "input": {
+                "height": 600000
+              }
+            },
+            "type": "ff"
+          }
+        ],
+        "mixin": 0,
+        "outputs": [
+          {
+            "globalIndex": 750578,
+            "output": {
+              "amount": 1,
+              "target": {
+                "data": {
+                  "key": "d2f3c5c17b0ef6564b715ec699e246aeb6fe4fa4984de0b556a1da686d0e381c"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 141864,
+            "output": {
+              "amount": 30,
+              "target": {
+                "data": {
+                  "key": "e5b98f54123a61a211545c4e8715956aae92123dbd9965e85e351532ad33340e"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 659408,
+            "output": {
+              "amount": 400,
+              "target": {
+                "data": {
+                  "key": "5caec873a5a857aec23ebc43400c4d3bd93aaf61a282f77a397f2a567d940021"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 577457,
+            "output": {
+              "amount": 7000,
+              "target": {
+                "data": {
+                  "key": "8ac48329110e5dadd12c2a9c282f98d689e263d9a8bb55b6ff36774865e18f25"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 493814,
+            "output": {
+              "amount": 20000,
+              "target": {
+                "data": {
+                  "key": "09c981fb2d7e29b49ad482d31e0b986cab19aac15d3777be97a37c3a89738590"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 672983,
+            "output": {
+              "amount": 900000,
+              "target": {
+                "data": {
+                  "key": "dcf992ce17b4217ca27cb0e9539d951014a156733080a04292ed3a87ba961c65"
+                },
+                "type": "02"
+              }
+            }
+          },
+          {
+            "globalIndex": 674598,
+            "output": {
+              "amount": 2000000,
+              "target": {
+                "data": {
+                  "key": "a53316195cbaf416749ced48d0a426ca2d0e790c694120abb9679b1c6175aef2"
+                },
+                "type": "02"
+              }
+            }
+          }
+        ],
+        "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+        "signatures": [],
+        "signaturesSize": 0,
+        "size": 300,
+        "timestamp": 1530957955,
+        "totalInputsAmount": 0,
+        "totalOutputsAmount": 2927431,
+        "unlockTime": 600040
+      }
+    ],
+    "transactionsCumulativeSize": 300
+  },
+  "status": "OK"
+}
+```
+
+### client.getBlocksDetailsByHeights(options)
+
+### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockHeights|Yes|The height of the block|integer|
+
+#### Example Code
+
+```javascript
+client.getBlocksDetailsByHeights({
+  blockHeights: [
+    500000,
+    600000
+  ]
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "blocks": [
+    {
+      "alreadyGeneratedCoins": 1771716825122,
+      "alreadyGeneratedTransactions": 1305440,
+      "baseReward": 2927431,
+      "blockSize": 419,
+      "difficulty": 352722224,
+      "hash": "234266e7a2b03534df7d7a0b9403eeaabad316b86222575076c599f77c812200",
+      "index": 600000,
+      "majorVersion": 4,
+      "minorVersion": 0,
+      "nonce": 31311,
+      "prevBlockHash": "680fc502a073a637a4d4e61f6011fac2271ff9942975cce98a52a2bcf92c775a",
+      "reward": 2927431,
+      "sizeMedian": 300,
+      "timestamp": 1530957955,
+      "totalFeeAmount": 0,
+      "transactions": [
+        {
+          "blockHash": "234266e7a2b03534df7d7a0b9403eeaabad316b86222575076c599f77c812200",
+          "blockIndex": 600000,
+          "extra": {
+            "nonce": [
+              0,
+              0,
+              0,
+              1,
+              44,
+              181,
+              35,
+              112
+            ],
+            "publicKey": "83b89ff22edc8f1ed2cc80add101363695fb3ab30c9286c50c56241e5f8b67b5",
+            "raw": ""
+          },
+          "fee": 0,
+          "hash": "f33287faa27c979d360eb05dce1b9b64d6308b8328ab7ad7a1001a07838fc20f",
+          "inBlockchain": true,
+          "inputs": [
+            {
+              "data": {
+                "amount": 2927431,
+                "input": {
+                  "height": 600000
+                }
+              },
+              "type": "ff"
+            }
+          ],
+          "mixin": 0,
+          "outputs": [
+            {
+              "globalIndex": 750578,
+              "output": {
+                "amount": 1,
+                "target": {
+                  "data": {
+                    "key": "d2f3c5c17b0ef6564b715ec699e246aeb6fe4fa4984de0b556a1da686d0e381c"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 141864,
+              "output": {
+                "amount": 30,
+                "target": {
+                  "data": {
+                    "key": "e5b98f54123a61a211545c4e8715956aae92123dbd9965e85e351532ad33340e"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 659408,
+              "output": {
+                "amount": 400,
+                "target": {
+                  "data": {
+                    "key": "5caec873a5a857aec23ebc43400c4d3bd93aaf61a282f77a397f2a567d940021"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 577457,
+              "output": {
+                "amount": 7000,
+                "target": {
+                  "data": {
+                    "key": "8ac48329110e5dadd12c2a9c282f98d689e263d9a8bb55b6ff36774865e18f25"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 493814,
+              "output": {
+                "amount": 20000,
+                "target": {
+                  "data": {
+                    "key": "09c981fb2d7e29b49ad482d31e0b986cab19aac15d3777be97a37c3a89738590"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 672983,
+              "output": {
+                "amount": 900000,
+                "target": {
+                  "data": {
+                    "key": "dcf992ce17b4217ca27cb0e9539d951014a156733080a04292ed3a87ba961c65"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 674598,
+              "output": {
+                "amount": 2000000,
+                "target": {
+                  "data": {
+                    "key": "a53316195cbaf416749ced48d0a426ca2d0e790c694120abb9679b1c6175aef2"
+                  },
+                  "type": "02"
+                }
+              }
+            }
+          ],
+          "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signatures": [],
+          "signaturesSize": 0,
+          "size": 300,
+          "timestamp": 1530957955,
+          "totalInputsAmount": 0,
+          "totalOutputsAmount": 2927431,
+          "unlockTime": 600040
+        }
+      ],
+      "transactionsCumulativeSize": 300
+    },
+    {
+      "alreadyGeneratedCoins": 1478791810384,
+      "alreadyGeneratedTransactions": 968669,
+      "baseReward": 2936160,
+      "blockSize": 22041,
+      "difficulty": 285124963,
+      "hash": "62f0058453292af5e1aa070f8526f7642ab6974c6af2c17088c21b31679c813d",
+      "index": 500000,
+      "majorVersion": 4,
+      "minorVersion": 0,
+      "nonce": 1073751151,
+      "prevBlockHash": "74a45602da61b8b8ff565b1c81c854416046a23ca53f4416684ffaa60bc50796",
+      "reward": 2936280,
+      "sizeMedian": 299,
+      "timestamp": 1527834137,
+      "totalFeeAmount": 120,
+      "transactions": [
+        {
+          "blockHash": "62f0058453292af5e1aa070f8526f7642ab6974c6af2c17088c21b31679c813d",
+          "blockIndex": 500000,
+          "extra": {
+            "nonce": [
+              0,
+              0,
+              0,
+              0,
+              149,
+              103,
+              16,
+              182
+            ],
+            "publicKey": "9e430ecdd501714900c71cb45fd49b4fa77ebd4a68d967cc2419ccd4e72378e3",
+            "raw": ""
+          },
+          "fee": 0,
+          "hash": "702ad5bd04b9eff14b080d508f69a320da1909e989d6c163c18f80ae7a5ab832",
+          "inBlockchain": true,
+          "inputs": [
+            {
+              "data": {
+                "amount": 2936280,
+                "input": {
+                  "height": 500000
+                }
+              },
+              "type": "ff"
+            }
+          ],
+          "mixin": 0,
+          "outputs": [
+            {
+              "globalIndex": 129866,
+              "output": {
+                "amount": 80,
+                "target": {
+                  "data": {
+                    "key": "5ce69a87940df7ae8443261ff610861d2e4207a7556ef1aa35878c0a5e7e382d"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 507629,
+              "output": {
+                "amount": 200,
+                "target": {
+                  "data": {
+                    "key": "7c7f316befaac16ba3782a2ce489e7c0f16c2b733ac0eaa0a72a12ee637822e9"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 462361,
+              "output": {
+                "amount": 6000,
+                "target": {
+                  "data": {
+                    "key": "defcb7eb6537bf0a63368ed464df10197e67d7ea8f080e885911cf9ea71abb62"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 318744,
+              "output": {
+                "amount": 30000,
+                "target": {
+                  "data": {
+                    "key": "9693e864dba53f308d0b59623c608b6fe16bbdc7cdc75be94f78582d547b46a4"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 560355,
+              "output": {
+                "amount": 900000,
+                "target": {
+                  "data": {
+                    "key": "b739e9fbaa3ee976a9ed8ad93a2731ee191c384cf136929e737786573fcd3e96"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 559781,
+              "output": {
+                "amount": 2000000,
+                "target": {
+                  "data": {
+                    "key": "5621667d44e7ffb87e5010a5984c188f58a799efb01569e8e42fa2415bb7d14a"
+                  },
+                  "type": "02"
+                }
+              }
+            }
+          ],
+          "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signatures": [],
+          "signaturesSize": 0,
+          "size": 266,
+          "timestamp": 1527834137,
+          "totalInputsAmount": 0,
+          "totalOutputsAmount": 2936280,
+          "unlockTime": 500040
+        }
+      ],
+      "transactionsCumulativeSize": 21826
+    }
+  ],
+  "status": "OK"
+}
+```
+
+#### Example Data
+
+### client.getBlocksDetailsByHashes(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockHashes|Yes|The height of the block|integer|
+
+#### Example Code
+
+```javascript
+client.getBlocksDetailsByHashes({
+  blockHashes: [
+    '4c4ce202a918f52a5f777be3de160bbe579f8cd7bd1e8a097b5f46bac900d471',
+    'eb84504720dba262bc02d79d922f9f183eb394586874e27c3fc6f4d0c76e31ed'
+  ]
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "blocks": [
+    {
+      "alreadyGeneratedCoins": 1808203639746,
+      "alreadyGeneratedTransactions": 1330685,
+      "baseReward": 2926343,
+      "blockSize": 13934,
+      "difficulty": 314009623,
+      "hash": "4c4ce202a918f52a5f777be3de160bbe579f8cd7bd1e8a097b5f46bac900d471",
+      "index": 612471,
+      "majorVersion": 4,
+      "minorVersion": 0,
+      "nonce": 1610784534,
+      "prevBlockHash": "190f172acd54b046a25da64011494cf96d544054f47f122575101501c19c7e5a",
+      "reward": 2926603,
+      "sizeMedian": 300,
+      "timestamp": 1531346993,
+      "totalFeeAmount": 260,
+      "transactions": [
+        {
+          "blockHash": "4c4ce202a918f52a5f777be3de160bbe579f8cd7bd1e8a097b5f46bac900d471",
+          "blockIndex": 612471,
+          "extra": {
+            "nonce": [
+              0,
+              0,
+              0,
+              0,
+              238,
+              107,
+              222,
+              230
+            ],
+            "publicKey": "e04d60524955cadc8e85d27a3d980615207b7b311453460a5f37a993900d7dcd",
+            "raw": ""
+          },
+          "fee": 0,
+          "hash": "053279175b6ddb5addd970895a3e2844a19945f368a22d83e446fff43b20eaa9",
+          "inBlockchain": true,
+          "inputs": [
+            {
+              "data": {
+                "amount": 2926603,
+                "input": {
+                  "height": 612471
+                }
+              },
+              "type": "ff"
+            }
+          ],
+          "mixin": 0,
+          "outputs": [
+            {
+              "globalIndex": 129418,
+              "output": {
+                "amount": 3,
+                "target": {
+                  "data": {
+                    "key": "88ccc941391aa6fd435e37d966e15a2e9eee4c10b02108275a6d69d34393d8d5"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 668484,
+              "output": {
+                "amount": 600,
+                "target": {
+                  "data": {
+                    "key": "788b0b6863aa306aca591e2d009ef42347e4f729ff4db10b3381762998bf5878"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 617579,
+              "output": {
+                "amount": 6000,
+                "target": {
+                  "data": {
+                    "key": "6a33bf41c6107eca3b0604964bf35cf1a466e801fd768cc0bdb2e59d2cc7164d"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 518420,
+              "output": {
+                "amount": 20000,
+                "target": {
+                  "data": {
+                    "key": "5a834a37d15dc84d0172853d86d77b41107e59924e8bc0879afb016f16fae050"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 687102,
+              "output": {
+                "amount": 900000,
+                "target": {
+                  "data": {
+                    "key": "e41ea0648831743b41a9f787e714782101e37078dbec41aa1c8a36e65b008aee"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 688849,
+              "output": {
+                "amount": 2000000,
+                "target": {
+                  "data": {
+                    "key": "7b59e82240d5e5f292f6285cd44a20acb024760fe81cad971fc332f89411365e"
+                  },
+                  "type": "02"
+                }
+              }
+            }
+          ],
+          "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signatures": [],
+          "signaturesSize": 0,
+          "size": 266,
+          "timestamp": 1531346993,
+          "totalInputsAmount": 0,
+          "totalOutputsAmount": 2926603,
+          "unlockTime": 612511
+        }
+      ],
+      "transactionsCumulativeSize": 13719
+    },
+    {
+      "alreadyGeneratedCoins": 1808191934374,
+      "alreadyGeneratedTransactions": 1330678,
+      "baseReward": 2926344,
+      "blockSize": 419,
+      "difficulty": 190461298,
+      "hash": "eb84504720dba262bc02d79d922f9f183eb394586874e27c3fc6f4d0c76e31ed",
+      "index": 612467,
+      "majorVersion": 4,
+      "minorVersion": 0,
+      "nonce": 131149,
+      "prevBlockHash": "2ede9401c343e95bd3da81e20f29fa059511baf67a64c91936aef3d192d7491a",
+      "reward": 2926344,
+      "sizeMedian": 300,
+      "timestamp": 1531346880,
+      "totalFeeAmount": 0,
+      "transactions": [
+        {
+          "blockHash": "eb84504720dba262bc02d79d922f9f183eb394586874e27c3fc6f4d0c76e31ed",
+          "blockIndex": 612467,
+          "extra": {
+            "nonce": [
+              0,
+              0,
+              0,
+              0,
+              219,
+              27,
+              250,
+              196
+            ],
+            "publicKey": "e4168284b7e63e432cb29ba9fb6d56e593ccae7c8a4e7c50b02b001a63f28bb5",
+            "raw": ""
+          },
+          "fee": 0,
+          "hash": "f69baa3c2ac707cc7325fea9a3b08ca1c3b677e90a28ba3dcb7b430e2fe7dbe6",
+          "inBlockchain": true,
+          "inputs": [
+            {
+              "data": {
+                "amount": 2926344,
+                "input": {
+                  "height": 612467
+                }
+              },
+              "type": "ff"
+            }
+          ],
+          "mixin": 0,
+          "outputs": [
+            {
+              "globalIndex": 123590,
+              "output": {
+                "amount": 4,
+                "target": {
+                  "data": {
+                    "key": "dc5f38fe0c75e96c1cb3f5805da2bfe12e63919ae373216f322d6e4360904cce"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 148934,
+              "output": {
+                "amount": 40,
+                "target": {
+                  "data": {
+                    "key": "0288bb8f25cc20c5c32183402e828c601dece14477fa21ae688f66a24f6444b9"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 679523,
+              "output": {
+                "amount": 300,
+                "target": {
+                  "data": {
+                    "key": "806558329e9ca064007152b8df404135542b7d237da10365939d48a4216b00c9"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 617575,
+              "output": {
+                "amount": 6000,
+                "target": {
+                  "data": {
+                    "key": "871c8170db4e76b96d8575054959eb948fd444b2e6666e08a374c9fbcf67b111"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 518416,
+              "output": {
+                "amount": 20000,
+                "target": {
+                  "data": {
+                    "key": "c8703368fc6c14302906a307ae31d44400e141ae320d786c134a057289a1b36c"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 687098,
+              "output": {
+                "amount": 900000,
+                "target": {
+                  "data": {
+                    "key": "cc393f9ec8dc06cf578706b340de1d2151992c8652b57605a57fbfa90d73497e"
+                  },
+                  "type": "02"
+                }
+              }
+            },
+            {
+              "globalIndex": 688845,
+              "output": {
+                "amount": 2000000,
+                "target": {
+                  "data": {
+                    "key": "fbcc4ddf81b5998ede5b7f9b7664b56533bee274f4a88f7310f532bf6837c548"
+                  },
+                  "type": "02"
+                }
+              }
+            }
+          ],
+          "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signatures": [],
+          "signaturesSize": 0,
+          "size": 300,
+          "timestamp": 1531346880,
+          "totalInputsAmount": 0,
+          "totalOutputsAmount": 2926344,
+          "unlockTime": 612507
+        }
+      ],
+      "transactionsCumulativeSize": 300
+    }
+  ],
+  "status": "OK"
+}
+```
+
+### client.getBlocksHashesByTimestamps(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|timestampBegin|Yes|The Unix Timestamp to search from|integer|
+|seconds|Yes|How many seconds to search for|integer|
+
+#### Example Code
+
+```javascript
+client.getBlocksHashesByTimestamps({
+  timestampBegin: 1531348100,
+  seconds: 240
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+{
+  "blockHashes": [
+    "6ab1b7f252b775edd02d230624a93144d8e5a731062ae36bc461720ce8b0e6a1",
+    "61674df46bae0fbedb5d9394e2f223a61fcfe45f7fbea6a96d56ae3d78e12a0e"
+  ],
+  "status": "OK"
+}
+```
+
+### client.getTransactionDetailsByHashes(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHashes|Yes|The transactions hashes to search for|strings|
+
+#### Example Code
+
+```javascript
+client.getTransactionDetailsByHashes({
+  transactionHashes: [
+    "8620c2f19b00182beb407023848305889baaa5202f3664c9efa70a843bf26c7b",
+    "687c487be84153ead8e70e3873d30f334316fc7d9ed052dd0575faad57d135dd"
+  ]
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "status": "OK",
+  "transactions": [
+    {
+      "blockHash": "12ec0675db0fbc83b3683e62e883626afc723c0943f868adf15e4bff2faa4578",
+      "blockIndex": 612486,
+      "extra": {
+        "nonce": [],
+        "publicKey": "998e47b2e6ae96d44e3e8e06ca1c94408a724c09390cb738b44160dbdbca13b3",
+        "raw": ""
+      },
+      "fee": 80,
+      "hash": "8620c2f19b00182beb407023848305889baaa5202f3664c9efa70a843bf26c7b",
+      "inBlockchain": true,
+      "inputs": [
+        {
+          "data": {
+            "input": {
+              "amount": 200,
+              "k_image": "5378332f1ee541054a2a824420730b0b5dd43fa478ae51b1999e39de97d05176",
+              "key_offsets": [
+                684366,
+                1720
+              ]
+            },
+            "mixin": 2,
+            "output": {
+              "number": 36,
+              "transactionHash": "f4aa0f84ef0e4105dd3a8df6935eb8976b9f00546dd071bd5223c819e65a8750"
+            }
+          },
+          "type": "02"
+        }
+      ],
+      "mixin": 2,
+      "outputs": [
+        {
+          "globalIndex": 754310,
+          "output": {
+            "amount": 1,
+            "target": {
+              "data": {
+                "key": "83cc2affe76a7a688b4b9f14d26fa825c653d427b0589710fa0e03f24f24b4fe"
+              },
+              "type": "02"
+            }
+          }
+        }
+      ],
+      "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+      "signatures": [
+        {
+          "first": 0,
+          "second": "2e7147d12e96496626658347e883c6650d5eadba41aff5549c95bd2d8f1ff40eebabfa35d5e871c11c1b2d5a7316593dac99d27878561ec37b8b166f8ce5ff0f"
+        },
+        {
+          "first": 0,
+          "second": "53b448aafcbce888b424c5c54994250d64080a7449f4d68904c1e9162aa7290bdefee3e666cfb4853a9e863ed454e0fac4ed6f61913e5f58a8548fe424f30e0c"
+        },
+        {
+          "first": 1,
+          "second": "f9e2ce758bf12402c51407f1f32332a851d606928b4f16c1685a650e5df0c90bbd50e38bdc29dac8c286810276a1430e5008463a458c9ed537bcb357753af709"
+        }
+      ],
+      "signaturesSize": 5,
+      "size": 2447,
+      "timestamp": 1531347605,
+      "totalInputsAmount": 2006970,
+      "totalOutputsAmount": 2006890,
+      "unlockTime": 0
+    },
+    {
+      "blockHash": "3aedc3dc87ce935d8cfd35722b94e6d9cee837eb2ce759df0647463df4e22fd8",
+      "blockIndex": 612488,
+      "extra": {
+        "nonce": [],
+        "publicKey": "6580ed699dd3cd96abd534203a44af8a185396e381d4b24320fd3c6ffb574a77",
+        "raw": ""
+      },
+      "fee": 100,
+      "hash": "687c487be84153ead8e70e3873d30f334316fc7d9ed052dd0575faad57d135dd",
+      "inBlockchain": true,
+      "inputs": [
+        {
+          "data": {
+            "input": {
+              "amount": 2000000,
+              "k_image": "82d1b7f179d4af8775af32cb28fb3d1093bf1f18445150bddfafceca5174127d",
+              "key_offsets": [
+                688630,
+                88,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "mixin": 8,
+            "output": {
+              "number": 6,
+              "transactionHash": "14b8f13a8da88372998672d96fee2d8abe12b242ce665c2335b2d3429e19886a"
+            }
+          },
+          "type": "02"
+        }
+      ],
+      "mixin": 8,
+      "outputs": [
+        {
+          "globalIndex": 863096,
+          "output": {
+            "amount": 100,
+            "target": {
+              "data": {
+                "key": "093b82f668cfa8085baef287e05932bd4cd2e2ac2c4ad335ebb8d296b730bf07"
+              },
+              "type": "02"
+            }
+          }
+        }
+      ],
+      "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+      "signatures": [
+        {
+          "first": 0,
+          "second": "122df3feb63a60cd62b841f073b7ae8cb4cc7936fd0727bae7e9268f23378f085f6fa7422060a66d8ac506bb17cc2fbdb0afb7e8082c170b8a72ae86d408380e"
+        },
+        {
+          "first": 0,
+          "second": "093f2b7c31db755e4e2cadbc3488f65e5aa45656db99aed8e27f2f5bc28cf10556ce480fc31f64e8b69c906af5d9414f4f6301de33f68df0ce5b0a4a537dd503"
+        }
+      ],
+      "signaturesSize": 3,
+      "size": 4516,
+      "timestamp": 1531347673,
+      "totalInputsAmount": 6000000,
+      "totalOutputsAmount": 5999900,
+      "unlockTime": 0
+    }
+  ]
+}
+```
+
+### client.getTransactionHashesByPaymentId(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|paymentId|Yes|The payment ID to search for|string|
+
+#### Example Code
+
+```javascript
+client.getTransactionHashesByPaymentId({
+  paymentId: "80ec855eef7df4bce718442cabe086f19dfdd0d03907c7768eddb8eca8c5a667"
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "status": "OK",
+  "transactionHashes": [
+    "094c306871bae7fceb3f49a4323c37cf43f6e8047e3ee8868ae5de00dd7007c4",
+    "58ffb22616e77e0a5bbbd4c29c890e6cbff736e2ca7276c682c12897224ab351",
+    "1a48506c1eeb479e59c8bf56e9e64cfb2d63941c4cee2f7f39198787208a12cb",
+    "a93ef651ef8d5305509e4c66e9ef64b015538ee28f3c9862cacbe2cfeede6b94",
+    "99131237a1c9abe1fe5292ef519b34c6c18455bc5d9ad5ecff5218608a3961b9",
+    "ef789d444f9276196b7e5d33c87bd843ee8a1f1a24bf30490394b2839d38c037",
+    "2944c1e5e90fae53cbe614bd8e6bf972366c97e2c39f450a47d1fc28351f49f1",
+    "55a4e615d3bcd8d58ea8272de6272b4daa0bb4e32c4b6ea937168e0827d83390",
+    "1516fdb7ace7ec8b0cc3c95a7cd0f60ec3757ef2e72e01c4d654500080760a18",
+    "ee3d241d46bcc3bd04809eec0a455f7db68ca126857e37119ad4794d747d73bb",
+    "095198817491c1f232f81a7a79257752a78e2215ce2c6c6606d74abab7f1a07e"
+  ]
+}
+>>>>>>> origin/add_client_interface
 ```
