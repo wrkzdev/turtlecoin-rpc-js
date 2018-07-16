@@ -7,7 +7,7 @@ This project is designed to make it very easy to interact with various RPC APIs 
 1. [Installation](#installation)
 2. [Intialization](#intialization)
 3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
-4. [Walletd RPC API Interface](#walletd-rpc-api-interface)
+4. [Walletd/Service RPC API Interface](#walletd-rpc-api-interface)
 5. [Client RPC API Interface](#client-rpc-api-interface)
 
 ## Installation
@@ -2914,5 +2914,14 @@ client.getTransactionHashesByPaymentId({
     "095198817491c1f232f81a7a79257752a78e2215ce2c6c6606d74abab7f1a07e"
   ]
 }
->>>>>>> origin/add_client_interface
 ```
+
+## License
+
+Copyright (C) 2018 Brandon Lehmann, The TurtleCoin Developers
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
