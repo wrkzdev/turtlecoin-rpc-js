@@ -7,7 +7,7 @@ This project is designed to make it very easy to interact with various RPC APIs 
 1. [Installation](#installation)
 2. [Intialization](#intialization)
 3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
-4. [Walletd/Service RPC API Interface](#walletd-rpc-api-interface)
+4. [Service RPC API Interface](#service-rpc-api-interface)
 5. [Client RPC API Interface](#client-rpc-api-interface)
 
 ## Installation
@@ -29,15 +29,15 @@ const daemon = new TurtleCoind({
 })
 ```
 
-### Walletd
+### Service
 ```javascript
-const Walletd = require('turtlecoin-rpc').Walletd
+const Service = require('turtlecoin-rpc').Service
 
-const wallet = new Walletd({
-  host: '127.0.0.1', // ip address or hostname of the walletd host
-  port: 11898, // what port is walletd running on
+const service = new Service({
+  host: '127.0.0.1', // ip address or hostname of the turtle-service host
+  port: 11898, // what port is turtle-service running on
   timeout: 2000, // request timeout
-  rpcPassword: 'changeme', // must be set to the password used to run walletd
+  rpcPassword: 'changeme', // must be set to the password used to run turtle-service
   
   // RPC API default values
   defaultMixin: 6, // the default mixin to use for transactions
@@ -63,7 +63,7 @@ const client = new Client({
 
 ## TurtleCoind RPC API Interface
 
-We expose all of the TurtleCoind RPC API commands via the ```TurtleCoind``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the `TurtleCoind` RPC API commands via the ```TurtleCoind``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
@@ -753,9 +753,9 @@ daemon.feeInfo().then((result) => {
 }
 ```
 
-## Walletd RPC API Interface
+## Service RPC API Interface
 
-We expose all of the walletd RPC API commands via the ```Walletd``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the `turtle-service` RPC API commands via the ```Service``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 ***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE THEM AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
@@ -763,7 +763,7 @@ Unless otherwise noted, all methods will resolve the promise upon success and sa
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 
-### wallet.reset(options)
+### service.reset(options)
 
 #### Method Parameters
 
@@ -774,29 +774,50 @@ Methods noted having options have parameters that may be *optional* or *required
 #### Example Code
 
 ```javascript
-wallet.reset({
+service.reset({
   viewSecretKey: '12345678901234567890'
 }).then(() => {
   // do something
 })
 ```
 
-### wallet.save()
+### service.save()
 
 #### Example Code
 
 ```javascript
-wallet.save().then(() => {
+service.save().then(() => {
   // do something
 })
 ```
 
-### wallet.getViewKey()
+### service.getFeeInfo()
+
+This method returns the fee information that the service picks up via the connected daemon.
 
 #### Example Code
 
 ```javascript
-wallet.getViewKey().then((result) => {
+service.getFeeInfo().then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+{
+  "address": "TRTLuxN6FVALYxeAEKhtWDYNS9Vd9dHVp3QHwjKbo76ggQKgUfVjQp8iPypECCy3MwZVyu89k1fWE2Ji6EKedbrqECHHWouZN6g",
+  "amount": 5000
+}
+```
+
+### service.getViewKey()
+
+#### Example Code
+
+```javascript
+service.getViewKey().then((result) => {
   // do something
 })
 ```
@@ -809,7 +830,7 @@ wallet.getViewKey().then((result) => {
 }
 ```
 
-### wallet.getSpendKeys(options)
+### service.getSpendKeys(options)
 
 #### Method Parameters
 
@@ -820,7 +841,7 @@ wallet.getViewKey().then((result) => {
 #### Example Code
 
 ```javascript
-wallet.getSpendKeys({
+service.getSpendKeys({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
   // do something
@@ -836,7 +857,7 @@ wallet.getSpendKeys({
 }
 ```
 
-### wallet.getMnemonicSeed(options)
+### service.getMnemonicSeed(options)
 
 #### Method Parameters
 
@@ -847,7 +868,7 @@ wallet.getSpendKeys({
 #### Example Code
 
 ```javascript
-wallet.getMnemonicSeed({
+service.getMnemonicSeed({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
   // do something
@@ -860,12 +881,12 @@ wallet.getMnemonicSeed({
 river nudged peculiar ailments waking null tossed anchor erase jive eavesdrop veered truth wield stacking tattoo unplugs oven wipeout aptitude estate dazed observant oxygen oxygen
 ```
 
-### wallet.getStatus()
+### service.getStatus()
 
 #### Example Code
 
 ```javascript
-wallet.getStatus().then((result) => {
+service.getStatus().then((result) => {
   // do something
 })
 ```
@@ -881,12 +902,12 @@ wallet.getStatus().then((result) => {
 }
 ```
 
-### wallet.getAddresses()
+### service.getAddresses()
 
 #### Example Code
 
 ```javascript
-wallet.getAddresses().then((result) => {
+service.getAddresses().then((result) => {
   // do something
 })
 ```
@@ -900,7 +921,7 @@ wallet.getAddresses().then((result) => {
 ]
 ```
 
-### wallet.createAddress(options)
+### service.createAddress(options)
 
 #### Method Parameters
 
@@ -914,7 +935,7 @@ wallet.getAddresses().then((result) => {
 #### Example Code
 
 ```javascript
-wallet.createAddress({
+service.createAddress({
   secretSpendKey: 'c6639a75a37f63f92e2f096fa262155c943b4fdc243ffb02b8178ab960bb5d0f',
   publicSpendKey: '9e50b808f1e2522b7c6feddd8e2f6cdcd89ff33b623412de2061d78c84588eff33b6d9'
 }).then((result) => {
@@ -930,7 +951,7 @@ wallet.createAddress({
 }
 ```
 
-### wallet.deleteAddress(options)
+### service.deleteAddress(options)
 
 #### Method Parameters
 
@@ -941,14 +962,14 @@ wallet.createAddress({
 #### Example Code
 
 ```javascript
-wallet.deleteAddress({
+service.deleteAddress({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
   // do something
 })
 ```
 
-### wallet.getBalance(options)
+### service.getBalance(options)
 
 #### Method Parameters
 
@@ -959,7 +980,7 @@ wallet.deleteAddress({
 #### Example Code
 
 ```javascript
-wallet.getBalance({
+service.getBalance({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
   // do something
@@ -975,7 +996,7 @@ wallet.getBalance({
 }
 ```
 
-### wallet.getBlockHashes(options)
+### service.getBlockHashes(options)
 
 #### Method Parameters
 
@@ -987,7 +1008,7 @@ wallet.getBalance({
 #### Example Code
 
 ```javascript
-wallet.getBlockHashes({
+service.getBlockHashes({
   firstBlockIndex: 500000,
   blockCount: 10
 }).then((result) => {
@@ -1014,7 +1035,7 @@ wallet.getBlockHashes({
 }
 ```
 
-### wallet.getTransactionHashes(options)
+### service.getTransactionHashes(options)
 
 #### Method Parameters
 
@@ -1031,7 +1052,7 @@ wallet.getBlockHashes({
 #### Example Code
 
 ```javascript
-wallet.getTransactionHashes({
+service.getTransactionHashes({
   addresses: [
     "TRTLux9QBmzCYEGgdWXHEQCAm6vY9vZHkbGmx8ev5LxhYk8N71Pp7PWFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJZ25i9n",
     "TRTLv1mPerM2ckUuNvxrkzDE7QKd9PFVUXYbVfbvx8YxB5BYEdSqQvUFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJbQMVgF"
@@ -1058,7 +1079,7 @@ wallet.getTransactionHashes({
 }
 ```
 
-### wallet.getTransactions(options)
+### service.getTransactions(options)
 
 #### Method Parameters
 
@@ -1075,7 +1096,7 @@ wallet.getTransactionHashes({
 #### Example Code
 
 ```javascript
-wallet.getTransactions({
+service.getTransactions({
   addresses: [
     "TRTLux9QBmzCYEGgdWXHEQCAm6vY9vZHkbGmx8ev5LxhYk8N71Pp7PWFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJZ25i9n",
     "TRTLv1mPerM2ckUuNvxrkzDE7QKd9PFVUXYbVfbvx8YxB5BYEdSqQvUFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJbQMVgF"
@@ -1111,7 +1132,7 @@ wallet.getTransactions({
 ]
 ```
 
-### wallet.getUnconfirmedTransactionHashes(options)
+### service.getUnconfirmedTransactionHashes(options)
 
 #### Method Parameters
 
@@ -1122,7 +1143,7 @@ wallet.getTransactions({
 #### Example Code
 
 ```javascript
-wallet.getUnconfirmedTransactionHashes({
+service.getUnconfirmedTransactionHashes({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
   // do something
@@ -1140,7 +1161,7 @@ wallet.getUnconfirmedTransactionHashes({
 }
 ```
 
-### wallet.getTransaction(options)
+### service.getTransaction(options)
 
 ***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE AMOUNTS AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
@@ -1153,7 +1174,7 @@ wallet.getUnconfirmedTransactionHashes({
 #### Example Code
 
 ```javascript
-wallet.getTransaction({
+service.getTransaction({
   transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
 }).then((result) => {
   // do something
@@ -1196,9 +1217,9 @@ wallet.getTransaction({
 }
 ```
 
-### wallet.newTransfer(address, amount)
+### service.newTransfer(address, amount)
 
-This method creates a transfer object designed to be used with *wallet.sendTransaction*
+This method creates a transfer object designed to be used with *service.sendTransaction*
 
 ***Note: This method does NOT return a promise.***
 
@@ -1207,10 +1228,10 @@ This method creates a transfer object designed to be used with *wallet.sendTrans
 #### Example Code
 
 ```javascript
-var transfer = wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+var transfer = service.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
 ```
 
-### wallet.sendTransaction(options)
+### service.sendTransaction(options)
 
 ***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
@@ -1219,7 +1240,7 @@ var transfer = wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9
 |Argument|Mandatory|Description|Format|
 |---|---|---|---|
 |addresses|No|Array of public wallet addresses|strings|
-|transfers|Yes|Array of transfer objects (see *wallet.newTransfer*) to send funds to|newTransfer|
+|transfers|Yes|Array of transfer objects (see *service.newTransfer*) to send funds to|newTransfer|
 |fee|No|Transaction fee for the transaction|float|
 |unlockTime|No|Blockheight ot unlock the transaction at, the UTC timestamp, or ```0``` for now.|integer|
 |mixin|No|The number of mixins to use|integer|
@@ -1230,9 +1251,9 @@ var transfer = wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9
 #### Example Code
 
 ```javascript
-wallet.sendTransaction({
+service.sendTransaction({
   transfers: [
-    wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+    service.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
   ],
   fee: 0.1,
   mixin: 7,
@@ -1249,7 +1270,7 @@ wallet.sendTransaction({
 }
 ```
 
-### wallet.createDelayedTransaction(options)
+### service.createDelayedTransaction(options)
 
 ***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT SUPPLY NATIVE CURRENCY AMOUNTS unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
@@ -1258,7 +1279,7 @@ wallet.sendTransaction({
 |Argument|Mandatory|Description|Format|
 |---|---|---|---|
 |addresses|No|Array of public wallet addresses|strings|
-|transfers|Yes|Array of transfer objects (see *wallet.newTransfer*) to send funds to|newTransfer|
+|transfers|Yes|Array of transfer objects (see *service.newTransfer*) to send funds to|newTransfer|
 |fee|No|Transaction fee for the transaction|float|
 |unlockTime|No|Blockheight ot unlock the transaction at, the UTC timestamp, or ```0``` for now.|integer|
 |mixin|No|The number of mixins to use|integer|
@@ -1269,9 +1290,9 @@ wallet.sendTransaction({
 #### Example Code
 
 ```javascript
-wallet.createDelayedTransaction({
+service.createDelayedTransaction({
   transfers: [
-    wallet.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
+    service.newTransfer('TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ', 1000000)
   ],
   fee: 0.1,
   mixin: 7,
@@ -1288,12 +1309,12 @@ wallet.createDelayedTransaction({
 }
 ```
 
-### wallet.getDelayedTransactionHashes()
+### service.getDelayedTransactionHashes()
 
 #### Example Code
 
 ```javascript
-wallet.getDelayedTransactionHashes().then((result) => {
+service.getDelayedTransactionHashes().then((result) => {
   // do something
 })
 ```
@@ -1309,7 +1330,7 @@ wallet.getDelayedTransactionHashes().then((result) => {
 }
 ```
 
-### wallet.deleteDelayedTransaction(options)
+### service.deleteDelayedTransaction(options)
 
 #### Method Parameters
 
@@ -1320,14 +1341,14 @@ wallet.getDelayedTransactionHashes().then((result) => {
 #### Example Code
 
 ```javascript
-wallet.deleteDelayedTransaction({
+service.deleteDelayedTransaction({
   transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
 }).then((result) => {
   // do something
 })
 ```
 
-### wallet.sendDelayedTransaction()
+### service.sendDelayedTransaction()
 
 #### Method Parameters
 
@@ -1338,14 +1359,14 @@ wallet.deleteDelayedTransaction({
 #### Example Code
 
 ```javascript
-wallet.sendDelayedTransaction({
+service.sendDelayedTransaction({
   transactionHash: 'd01e448f7b631cebd989e3a150258b0da59c66f96adecec392bbf61814310751'
 }).then((result) => {
   // do something
 })
 ```
 
-### wallet.sendFusionTransaction(options)
+### service.sendFusionTransaction(options)
 
 #### Method Parameters
 
@@ -1361,7 +1382,7 @@ wallet.sendDelayedTransaction({
 #### Example Code
 
 ```javascript
-wallet.sendFusionTransaction({
+service.sendFusionTransaction({
   mixin: 7,
   destinationAddress: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
 }).then((result) => {
@@ -1377,7 +1398,7 @@ wallet.sendFusionTransaction({
 }
 ```
 
-### wallet.estimateFusion(options)
+### service.estimateFusion(options)
 
 #### Method Parameters
 
@@ -1389,7 +1410,7 @@ wallet.sendFusionTransaction({
 #### Example Code
 
 ```javascript
-wallet.estimateFusion({
+service.estimateFusion({
   threshold: 100000000,
   addresses:[
     'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ'
@@ -1408,7 +1429,7 @@ wallet.estimateFusion({
 }
 ```
 
-### wallet.createIntegratedAddress(options)
+### service.createIntegratedAddress(options)
 
 #### Method Parameters
 
@@ -1420,7 +1441,7 @@ wallet.estimateFusion({
 #### Example Code
 
 ```javascript
-wallet.createIntegratedAddress({
+service.createIntegratedAddress({
   address: 'TRTLv1pacKFJk9QgSmzk2LJWn14JGmTKzReFLz1RgY3K9Ryn7783RDT2TretzfYdck5GMCGzXTuwKfePWQYViNs4avKpnUbrwfQ',
   paymentId: '80ec855eef7df4bce718442cabe086f19dfdd0d03907c7768eddb8eca8c5a667'
 }).then((result) => {
@@ -1437,7 +1458,7 @@ TRTLTyPSXMZB5j2wbztMzRXu2rVCuNVLUb4WKARRZY9ficYWshMDy7p4MXEz24mkyb4KFDVksDj41XTJ
 
 ## Client RPC API Interface
 
-We expose all of the TurtleCoind Client RPC API commands via the ```Client``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the `TurtleCoind` Client RPC API commands via the ```Client``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 Methods noted having options have parameters that may be *optional* or *required* as documented.
 

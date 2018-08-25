@@ -1,6 +1,6 @@
 {
   "name": "turtlecoin-rpc",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "TurtleCoin RPC API Interface in NodeJS",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "API"
   ],
   "author": "Brandon Lehmann <brandonlehmann@gmail.com>",
-  "license": "AGPL-3.0-only",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/brandonlehmann/turtlecoin-rpc/issues"
   },
