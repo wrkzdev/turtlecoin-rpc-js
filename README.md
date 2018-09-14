@@ -1,4 +1,5 @@
 [![NPM](https://nodei.co/npm/turtlecoin-rpc.png?downloads=true&stars=true)](https://nodei.co/npm/turtlecoin-rpc/)
+
 [![Build Status](https://travis-ci.org/brandonlehmann/turtlecoin-rpc.png?branch=master)](https://travis-ci.org/brandonlehmann/turtlecoin-rpc)
 
 # TurtleCoin RPC API
