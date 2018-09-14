@@ -29,7 +29,8 @@ const TurtleCoind = require('turtlecoin-rpc').TurtleCoind
 const daemon = new TurtleCoind({
   host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
   port: 11898, // what port is the RPC server running on
-  timeout: 2000 // request timeout
+  timeout: 2000, // request timeout
+  ssl: false // whether we need to connect using SSL/TLS
 })
 ```
 
@@ -41,10 +42,11 @@ const service = new Service({
   host: '127.0.0.1', // ip address or hostname of the turtle-service host
   port: 11898, // what port is turtle-service running on
   timeout: 2000, // request timeout
+  ssl: false, // whether we need to connect using SSL/TLS
   rpcPassword: 'changeme', // must be set to the password used to run turtle-service
   
   // RPC API default values
-  defaultMixin: 6, // the default mixin to use for transactions
+  defaultMixin: false, // the default mixin to use for transactions, the default setting is false which means we don't have a default value
   defaultFee: 0.1, // the default transaction fee for transactions
   defaultBlockCount: 1, // the default number of blocks when blockCount is required
   decimalDivisor: 100, // Currency has many decimal places?
@@ -61,7 +63,8 @@ const Client = require('turtlecoin-rpc').Client
 const client = new Client({
   host: '127.0.0.1', // ip address or hostname of the TurtleCoind host
   port: 11898, // what port is the RPC server running on
-  timeout: 2000 // request timeout
+  timeout: 2000, // request timeout
+  ssl: false // whether we need to connect using SSL/TLS
 })
 ```
 
