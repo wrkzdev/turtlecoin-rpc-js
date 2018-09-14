@@ -1,3 +1,6 @@
+[![NPM](https://nodei.co/npm/turtlecoin-rpc.png?downloads=true&stars=true)](https://nodei.co/npm/turtlecoin-rpc/)
+[![Build Status](https://travis-ci.org/brandonlehmann/turtlecoin-rpc.png?branch=master)](https://travis-ci.org/brandonlehmann/turtlecoin-rpc)
+
 # TurtleCoin RPC API
 
 This project is designed to make it very easy to interact with various RPC APIs available within the [TurtleCoin](https://turtlecoin.lol) Project. This entire project uses [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) to make things fast, easy, and safe.
