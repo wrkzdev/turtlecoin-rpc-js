@@ -40,7 +40,7 @@ const Service = require('turtlecoin-rpc').Service
 
 const service = new Service({
   host: '127.0.0.1', // ip address or hostname of the turtle-service host
-  port: 11898, // what port is turtle-service running on
+  port: 8070, // what port is turtle-service running on
   timeout: 2000, // request timeout
   ssl: false, // whether we need to connect using SSL/TLS
   rpcPassword: 'changeme', // must be set to the password used to run turtle-service
