@@ -11,7 +11,7 @@ This project is designed to make it very easy to interact with various RPC APIs 
 1. [Installation](#installation)
 2. [Intialization](#intialization)
 3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
-4. [Service RPC API Interface](#service-rpc-api-interface)
+4. [TurtleService RPC API Interface](#turtleservice-rpc-api-interface)
 5. [Client RPC API Interface](#client-rpc-api-interface)
 
 ## Installation
@@ -34,11 +34,11 @@ const daemon = new TurtleCoind({
 })
 ```
 
-### Service
+### TurtleService
 ```javascript
-const Service = require('turtlecoin-rpc').Service
+const TurtleService = require('turtlecoin-rpc').TurtleService
 
-const service = new Service({
+const service = new TurtleService({
   host: '127.0.0.1', // ip address or hostname of the turtle-service host
   port: 8070, // what port is turtle-service running on
   timeout: 2000, // request timeout
@@ -700,7 +700,12 @@ daemon.feeInfo().then((result) => {
 #### Example Code
 
 ```javascript
-daemon.getTransactions().then((result) => {
+daemon.getTransactions({
+  hashes: [
+    '549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3564',
+    '549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3563'
+  ]
+}).then((result) => {
   // do something
 })
 ```
@@ -709,9 +714,13 @@ daemon.getTransactions().then((result) => {
 
 ```javascript
 {
-  "missed_tx": [],
+  "missed_tx": [
+    "549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3563"
+  ],
   "status": "OK",
-  "txs_as_hex": []
+  "txs_as_hex": [
+    "01000a023204e7b6...584248728d0c"
+  ]
 }
 ```
 
@@ -760,9 +769,9 @@ daemon.feeInfo().then((result) => {
 }
 ```
 
-## Service RPC API Interface
+## TurtleService RPC API Interface
 
-We expose all of the `turtle-service` RPC API commands via the ```Service``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
+We expose all of the `turtle-service` RPC API commands via the ```TurtleService``` interface. Each of the below methods are [Javascript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). For safety sake, **always** handle your promise catches as we do use them properly.
 
 ***Special Note:*** Any and all amounts/fees will already be in HUMAN readable units. DO NOT DIVIDE THEM AGAIN unless you've specified ```decimalDivisor``` as ```1``` in the options. You have been warned.
 
