@@ -675,26 +675,6 @@ daemon.getInfo().then((result) => {
 }
 ```
 
-### daemon.feeInfo()
-
-#### Example Code
-
-```javascript
-daemon.feeInfo().then((result) => {
-  // do something
-})
-```
-
-#### Sample Data
-
-```javascript
-{
-"address":"TRTLux9QBmzCYEGgdWXHEQCAm6vY9vZHkbGmx8ev5LxhYk8N71Pp7PWFYL9CHxpWph2wCPZcJ6tkPfUxVZcUN8xmYsSDJZ25i9n",
-"amount": 5000,
-"status": "OK"
-}
-```
-
 ### daemon.getTransactions()
 
 #### Example Code
