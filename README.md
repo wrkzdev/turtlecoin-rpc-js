@@ -8,11 +8,17 @@ This project is designed to make it very easy to interact with various RPC APIs 
 
 ## Table of Contents
 
-1. [Installation](#installation)
-2. [Intialization](#intialization)
-3. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
-4. [TurtleService RPC API Interface](#turtleservice-rpc-api-interface)
-5. [Client RPC API Interface](#client-rpc-api-interface)
+1. [Dependencies](#dependencies)
+2. [Installation](#installation)
+3. [Intialization](#intialization)
+4. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
+5. [TurtleService RPC API Interface](#turtleservice-rpc-api-interface)
+6. [Client RPC API Interface](#client-rpc-api-interface)
+
+## Dependencies
+
+* [NodeJS v8.x](https://nodejs.org) >= 8.x
+* [TurtleCoin](https://github.com/turtlecoin/turtlecoin/releases) >= v0.8.4
 
 ## Installation
 
@@ -44,7 +50,7 @@ const service = new TurtleService({
   timeout: 2000, // request timeout
   ssl: false, // whether we need to connect using SSL/TLS
   rpcPassword: 'changeme', // must be set to the password used to run turtle-service
-  
+
   // RPC API default values
   defaultMixin: false, // the default mixin to use for transactions, the default setting is false which means we don't have a default value
   defaultFee: 0.1, // the default transaction fee for transactions
@@ -623,12 +629,12 @@ daemon.getCurrencyId().then((result) => {
 7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c
 ```
 
-### daemon.getHeight()
+### daemon.height()
 
 #### Example Code
 
 ```javascript
-daemon.getHeight().then((result) => {
+daemon.height().then((result) => {
   // do something
 })
 ```
@@ -643,12 +649,12 @@ daemon.getHeight().then((result) => {
 }
 ```
 
-### daemon.getInfo()
+### daemon.info()
 
 #### Example Code
 
 ```javascript
-daemon.getInfo().then((result) => {
+daemon.info().then((result) => {
   // do something
 })
 ```
@@ -704,12 +710,12 @@ daemon.getTransactions({
 }
 ```
 
-### daemon.getPeers()
+### daemon.peers()
 
 #### Example Code
 
 ```javascript
-daemon.getPeers().then((result) => {
+daemon.peers().then((result) => {
   // do something
 })
 ```
@@ -729,12 +735,12 @@ daemon.getPeers().then((result) => {
 }
 ```
 
-### daemon.feeInfo()
+### daemon.fee()
 
 #### Example Code
 
 ```javascript
-daemon.feeInfo().then((result) => {
+daemon.fee().then((result) => {
   // do something
 })
 ```
@@ -765,13 +771,13 @@ Methods noted having options have parameters that may be *optional* or *required
 
 |Argument|Mandatory|Description|Format|
 |---|---|---|---|
-|viewSecretKey|No|The secret key to reset|string|
+|scanHeight|No|The scanHeight to start scanning for transactions|integer|
 
 #### Example Code
 
 ```javascript
 service.reset({
-  viewSecretKey: '12345678901234567890'
+  scanHeight: 100000
 }).then(() => {
   // do something
 })
@@ -787,14 +793,14 @@ service.save().then(() => {
 })
 ```
 
-### service.getFeeInfo()
+### service.getNodeFeeInfo()
 
-This method returns the fee information that the service picks up via the connected daemon.
+This method returns the Node fee information that the service picks up via the connected daemon.
 
 #### Example Code
 
 ```javascript
-service.getFeeInfo().then((result) => {
+service.getNodeFeeInfo().then((result) => {
   // do something
 })
 ```
@@ -1501,7 +1507,7 @@ client.queryBlocksLite({
     "items": [
         {
             "blockShortInfo.block": [
-                4, 
+                4,
                 0,
                 123,
                 173,
