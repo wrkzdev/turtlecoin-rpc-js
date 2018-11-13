@@ -1474,7 +1474,11 @@ Methods noted having options have parameters that may be *optional* or *required
 
 ### client.queryBlocksLite(options)
 
-Retrieves the last 100 (as defined in ) blocks from the first block hash supplied in the requested array.
+Retrieves the last 100 blocks from the last block hash that the daemon knows about in the list provided
+
+For the best results, the block hashes you supply should follow the following order:
+
+The first 10 blocks are sequential descending, next goes in pow(2,n), like 2, 4, 8, 16, 32, 64 and so on, and the last one is always genesis block
 
 #### Method Parameters
 
@@ -1600,6 +1604,115 @@ client.queryBlocksLite({
     ],
     "startHeight": 602009,
     "status": "OK"
+}
+```
+
+### client.queryBlocksDetailed(options)
+
+Retrieves the last 100 blocks from the last block hash that the daemon knows about in the list provided
+
+For the best results, the block hashes you supply should follow the following order:
+
+The first 10 blocks are sequential descending, next goes in pow(2,n), like 2, 4, 8, 16, 32, 64 and so on, and the last one is always genesis block
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|blockHashes|Yes|The block hashes to query|strings|
+|timestamp|No|The timestamp to query|integer|
+
+#### Example Code
+
+```javascript
+client.queryBlocksDetailed({
+  blockHashes: [
+    '7fb97df81221dd1366051b2d0bcdf49c66c22ac4431d879c895b06d66ef66f4c',
+    '7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c'
+  ]
+}).then((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+{
+  "blocks": [
+    {
+      "alreadyGeneratedCoins": 2980232,
+      "alreadyGeneratedTransactions": 1,
+      "baseReward": 2980232,
+      "blockSize": 117,
+      "difficulty": 1,
+      "hash": "7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c",
+      "index": 0,
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "nonce": 70,
+      "prevBlockHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "reward": 2980232,
+      "sizeMedian": 0,
+      "timestamp": 0,
+      "totalFeeAmount": 0,
+      "transactions": [
+        {
+          "blockHash": "7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c",
+          "blockIndex": 0,
+          "extra": {
+            "nonce": [],
+            "publicKey": "42694232c5b04151d9e4c27d31ec7a68ea568b19488cfcb422659a07a0e44dd5",
+            "raw": ""
+          },
+          "fee": 0,
+          "hash": "0d1c0f28b5f5eaa6a21c110eed1339ac9a9eb6a1689d8c31c51a011983069e9b",
+          "inBlockchain": true,
+          "inputs": [
+            {
+              "data": {
+                "amount": 2980232,
+                "input": {
+                  "height": 0
+                }
+              },
+              "type": "ff"
+            }
+          ],
+          "mixin": 0,
+          "outputs": [
+            {
+              "globalIndex": 0,
+              "output": {
+                "amount": 2980232,
+                "target": {
+                  "data": {
+                    "key": "9b2e4c0281c0b02e7c53291a94d1d0cbff8883f8024f5142ee494ffbbd088071"
+                  },
+                  "type": "02"
+                }
+              }
+            }
+          ],
+          "paymentId": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signatures": [],
+          "signaturesSize": 0,
+          "size": 77,
+          "timestamp": 0,
+          "totalInputsAmount": 0,
+          "totalOutputsAmount": 2980232,
+          "unlockTime": 10
+        }
+      ],
+      "transactionsCumulativeSize": 77
+    }
+  ],
+  "currentHeight": 968709,
+  "fullOffset": 0,
+  "startHeight": 0,
+  "status": "OK"
 }
 ```
 
