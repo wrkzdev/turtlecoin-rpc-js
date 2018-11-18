@@ -1621,6 +1621,7 @@ The first 10 blocks are sequential descending, next goes in pow(2,n), like 2, 4,
 |---|---|---|---|
 |blockHashes|Yes|The block hashes to query|strings|
 |timestamp|No|The timestamp to query|integer|
+|blockCount|No|The number of blocks to return (2 <= count <= 100)|integer|
 
 #### Example Code
 
