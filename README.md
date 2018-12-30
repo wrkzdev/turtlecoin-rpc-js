@@ -498,6 +498,32 @@ daemon.submitBlock({
 }
 ```
 
+### daemon.sendRawTransaction(options)
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|tx|Yes|Raw serialized transaction|string|
+
+#### Example Code
+
+```javascript
+daemon.sendRawTransaction({
+  tx: '...'
+}).then((result) => {
+  // do something
+})
+```
+
+#### Sample Data
+
+```javascript
+{
+  "status": "OK"
+}
+```
+
 ### daemon.getLastBlockHeader()
 
 #### Example Code
