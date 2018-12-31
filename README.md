@@ -3099,6 +3099,226 @@ client.getTransactionHashesByPaymentId({
 }
 ```
 
+### client.getWalletSyncData(options)
+
+Returns up to 100 blocks. If block hash checkpoints are given, it will return
+beginning from the height of the first hash it finds, plus one.
+
+However, if startHeight or startTimestamp is given, and this value is higher
+than the block hash checkpoints, it will start returning from that height instead.
+
+The block hash checkpoints should be given with the highest block height hashes
+first.
+
+Typical usage: specify a start height/timestamp initially, and from then on,
+also provide the returned block hashes.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|startHeight|No|The height to begin returning blocks from|integer|
+|startTimestamp|No|The timestamp to begin returning blocks from (unix style)|integer|
+|blockHashCheckpoints|No|The timestamp to begin returning blocks from|strings|
+
+#### Example Code
+
+```javascript
+client.getWalletSyncData({
+  startHeight: 1000,
+  blockHashCheckpoints: [
+    "0606a15147159e3f01dd90aa78828cf8587caed36203cd764701b56eb6ff6fd8",
+    "1d61bf052ee2fa3720078ee01cf30e01ba305096bf3e3d3668fbc09bbeafa244"
+  ]
+}).then((blocks) => {
+  // do something
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+***Note:*** Example data has been heavily truncated for display below.
+
+```javascript
+[
+    {
+      "blockHash": "221e7c19b11473c78694369945ef2b46d327255a3cf27e827c1da5a9971a4cbc",
+      "blockHeight": 1106498,
+      "blockTimestamp": 1546214436,
+      "coinbaseTX": {
+        "hash": "6c2a9be4897d6b60b8c093bc3c7e24624910ae162f9b8d2b8c1f1b8156219e85",
+        "outputs": [
+          {
+            "amount": 6,
+            "key": "d8d4d10e6d663b4bdad910b93141f6b289be6c091097bcb9f140c37d3f5df95e"
+          },
+          {
+            "amount": 20,
+            "key": "bb6032cb23b0c6c936897071b4a414381fd0c4c22f1353a4e09ef9e5e6ded4b0"
+          },
+          {
+            "amount": 800,
+            "key": "cc31e9d568a2013e600d3da523c4d7edc51e4d166a8ce4667bed75353ceed323"
+          },
+          {
+            "amount": 3000,
+            "key": "5c847e85a006b914ae170e30e9f7899fd0187e10e0428e6636f024766fabc401"
+          },
+          {
+            "amount": 80000,
+            "key": "6f784909cfacdbe89948df275710f214def9873b19ae9b6c1ea45cb5b29df9df"
+          },
+          {
+            "amount": 800000,
+            "key": "a8c1f615f51a1caae91d50e4a5ba0fb71ae2d02a66e684ec3636df091da82b66"
+          },
+          {
+            "amount": 2000000,
+            "key": "d49965a46be6e5b95401c119a8a884bd259e66d3a0ec68ba8ee759eb6c7c26bf"
+          }
+        ],
+        "txPublicKey": "8770d63f4211bfe8f50c2344ee000e99c4023a9de382c36bfaa20846f71e8958",
+        "unlockTime": 1106538
+      },
+      "transactions": [
+        {
+          "hash": "f6316d35ab64080165c6c0476e9382306de3a5ff3367b32ac36acd0e0d374f40",
+          "inputs": [
+            {
+              "amount": 2000000,
+              "k_image": "52e6c9c96664693178f2f2cafef5200aa2e6ae2e1dd413c606dd7ce1bec77f2d",
+              "key_offsets": [
+                1259742,
+                6216,
+                1,
+                1
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "amount": 4000000,
+              "key": "309bca3a13c4b2e4eb592b9751619945e5d49e74993fbdca9c74e403a03b52d6"
+            }
+          ],
+          "paymentID": "",
+          "txPublicKey": "01213035e9be3db80afa81e5d0d0305ffaad00513f0f3f38deff67d6bc9c3a6b",
+          "unlockTime": 0
+        },
+      ]
+    }
+]
+```
+
+### client.getGlobalIndexesForRange(options)
+
+Returns the global indexes for any transactions in the range [startHeight .. endHeight].
+Generally, you only want the global index for a specific transaction, however,
+this reveals that you probably are the recipient of this transaction. By
+supplying a range of blocks, you can obfusticate which transaction you are
+enquiring about.
+
+Note: key = transaction hash, value = global indexes for the outputs in that hash.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|startHeight|No|The height to begin returning indices from|integer|
+|endHeight|No|The height to end returning indices from |integer|
+
+#### Example Code
+
+```javascript
+client.getGlobalIndexesForRange({
+    startHeight: 12345,
+    endHeight: 12347
+}).then((indexes) => {
+  // do something
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+[
+    {
+      "key": "e4331d0453affa0a61c441dd422f9159cbb4a82006051ef23dbfbd61cefa0256",
+      "value": [
+        1271,
+        1244,
+        1866,
+        9858,
+        9824,
+        12428,
+        12418
+      ]
+    },
+    {
+      "key": "0e8d74b89d79f30bb33d74037259a34a6d86f13aa2c6d2c7716e2831aa1a82a9",
+      "value": [
+        1272,
+        1245,
+        1867,
+        9859,
+        9825,
+        12429,
+        12419
+      ]
+    }
+]
+```
+
+### client.getTransactionsStatus(options)
+
+Returns the status of the transaction hashes given to the daemon.
+
+transactionsInPool = Transactions that are in the daemons mempool, but not in a
+block yet.
+
+transactionsInBlock = Transactions that have been included into a block.
+
+transactionsUnknown = Transactions the daemon doesn't know anything about.
+
+#### Method Parameters
+
+|Argument|Mandatory|Description|Format|
+|---|---|---|---|
+|transactionHashes|Yes|The transaction hashes to query|strings|
+
+#### Example Code
+
+```javascript
+client.getTransactionsStatus({
+  transactionHashes: [
+    '549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3564',
+    '549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3563'
+  ]
+}).then((txStatus) => {
+  // do something
+}).catch((result) => {
+  // do something
+})
+```
+
+#### Example Data
+
+```javascript
+{
+  "transactionsInBlock": [
+    "549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3564"
+  ],
+  "transactionsInPool": [],
+  "transactionsUnknown": [
+    "549828e75151982b0e51b27e8f53b26ebc174f0ef78063984c8952b13e2a3563"
+  ]
+}
+```
+
 ## License
 
 ```
