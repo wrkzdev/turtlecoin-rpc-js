@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Brandon Lehmann, The TurtleCoin Developers
+// Copyright (c) 2018-2019, Brandon Lehmann, The TurtleCoin Developers
 //
 // Please see the included LICENSE file for more information.
 
@@ -6,6 +6,7 @@
 
 module.exports.TurtleCoind = require('./lib/turtlecoind-rpc.js')
 module.exports.TurtleService = require('./lib/service-rpc.js')
+module.exports.WalletAPI = require('./lib/walletapi-rpc.js')
 
 // These exports will be deprecated in a future version.
 // Continue to use them at your own risk.
