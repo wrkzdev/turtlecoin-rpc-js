@@ -2635,6 +2635,8 @@ All of the `wallet-api` commands are exposed via the `wallet` interface. This ut
 
 Some paramters may be *optional* or *required* as documented.
 
+Some of the descriptions of the functions were re-used from @zpalmtree's [Wallet-API Docs](https://github.com/turtlecoin/wallet-api-docs) and are released under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+
 ### wallet.open = function (filename, password, host, port, ssl)
 
 Opens a wallet from file.
