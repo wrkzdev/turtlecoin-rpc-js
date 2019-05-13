@@ -1,6 +1,6 @@
 {
   "name": "turtlecoin-rpc",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "TurtleCoin RPC API Interface in NodeJS",
   "main": "index.js",
   "scripts": {
