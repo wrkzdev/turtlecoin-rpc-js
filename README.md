@@ -2428,6 +2428,7 @@ also provide the returned block hashes.
 |startHeight|No|The height to begin returning blocks from|integer|
 |startTimestamp|No|The timestamp to begin returning blocks from (unix style)|integer|
 |blockHashCheckpoints|No|The timestamp to begin returning blocks from|strings|
+|skipCoinbaseTransactions|No|Whether to skip returning any coinbase transactions or blocks containing only such|boolean|
 
 #### Example Code
 
@@ -2437,7 +2438,8 @@ daemon.getWalletSyncData({
   blockHashCheckpoints: [
     "0606a15147159e3f01dd90aa78828cf8587caed36203cd764701b56eb6ff6fd8",
     "1d61bf052ee2fa3720078ee01cf30e01ba305096bf3e3d3668fbc09bbeafa244"
-  ]
+  ],
+  skipCoinbaseTransactions: false
 }).then((blocks) => {
   // do something
 }).catch((result) => {
