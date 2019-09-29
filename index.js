@@ -4,12 +4,15 @@
 
 'use strict'
 
-module.exports.TurtleCoind = require('./lib/turtlecoind-rpc.js')
-module.exports.TurtleService = require('./lib/service-rpc.js')
-module.exports.WalletAPI = require('./lib/walletapi-rpc.js')
+const TurtleCoind = require('./lib/turtlecoind-rpc')
+const TurtleService = require('./lib/service-rpc')
+const WalletAPI = require('./lib/walletapi-rpc')
 
-// These exports will be deprecated in a future version.
-// Continue to use them at your own risk.
-module.exports.Walletd = require('./lib/service-rpc.js')
-module.exports.Service = require('./lib/service-rpc.js')
-module.exports.Client = require('./lib/turtlecoind-rpc.js')
+module.exports = {
+  TurtleCoind,
+  TurtleService,
+  WalletAPI,
+  Walletd: TurtleService,
+  Service: TurtleService,
+  Client: TurtleCoind
+}
