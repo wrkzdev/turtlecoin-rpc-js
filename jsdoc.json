@@ -1,0 +1,27 @@
+{
+  "title": "TurtleCoin RPC - Documentation",
+  "plugins": [],
+  "recurseDepth": 10,
+  "source": {
+    "include": [
+      "README.md",
+      "lib/turtlecoind-rpc.js",
+      "lib/walletapi-rpc.js"
+    ]
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc",
+      "closure"
+    ]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "destination": "./docs"
+  }
+}
