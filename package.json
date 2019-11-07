@@ -1,10 +1,11 @@
 {
   "name": "turtlecoin-rpc",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "TurtleCoin RPC API Interface in NodeJS",
   "main": "index.js",
   "files": [
-    "dist/TurtleCoinRPC.js"
+    "dist/TurtleCoinRPC.js",
+    "lib/*"
   ],
   "engines": {
     "node": ">=8"
@@ -37,7 +38,7 @@
   },
   "dependencies": {
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.7"
+    "request-promise-native": "^1.0.8"
   },
   "devDependencies": {
     "standard": "^13.1.0",
