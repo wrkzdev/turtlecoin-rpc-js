@@ -20,8 +20,7 @@ v2.0.0+ contains multiple breaking changes to the package including the removal 
 1. [Dependencies](#dependencies)
 2. [Installation](#installation)
 3. [Intialization](#intialization)
-4. [TurtleCoind RPC API Interface](#turtlecoind-rpc-api-interface)
-5. [WalletAPI Interface](#walletapi-interface)
+4. [Documentation](#documentation)
 
 ## Dependencies
 
