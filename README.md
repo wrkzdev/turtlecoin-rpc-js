@@ -30,7 +30,15 @@ v2.0.0+ contains multiple breaking changes to the package including the removal 
 ## Installation
 
 ```bash
-npm install turtlecoin-rpc
+npm install --save turtlecoin-rpc
+```
+
+### Legacy Version
+
+If you require support for `turtle-service` interaction, please install v1.0.3 instead of the current release. For the documentation for the legacy version, please see the [v1.0.3 docs](https://www.npmjs.com/package/turtlecoin-rpc/v/1.0.3)
+
+```bash
+npm install --save turtlecoin-rpc@1.0.3
 ```
 
 ## Intialization
@@ -66,7 +74,7 @@ const wallet = new WalletAPI({
 })
 ```
 
-### Documentation
+## Documentation
 
 You can find the full documentation for this library [here](https://js-rpc.turtlecoin.dev)
 
