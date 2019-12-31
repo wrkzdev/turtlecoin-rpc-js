@@ -50,6 +50,7 @@ class TurtleCoind {
    * @param {number} [opts.timeout=2000] - the timeout to use during RPC calls
    * @param {boolean} [opts.ssl=false] - whether the daemon uses SSL (HTTPS) or not
    * @param {string} [opts.userAgent=turtlecoin-rpc/version] - the user agent string to use with requests
+   * @param {boolen} [opts.keepAlive=true] - whether the underying HTTP(s) connection should be kept alive and reused
    */
   constructor (opts) {
     opts = opts || {}
@@ -58,6 +59,7 @@ class TurtleCoind {
     this.timeout = opts.timeout || 2000
     this.ssl = opts.ssl || false
     this.userAgent = opts.userAgent || util.format('%s/%s', packageInfo.name, packageInfo.version)
+    this.keepAlive = (typeof opts.keepAlive !== 'undefined') ? opts.keepAlive : true
   }
 
   /**
@@ -68,23 +70,18 @@ class TurtleCoind {
    * @returns {Object} the response
    */
   _get (method) {
-    return new Promise((resolve, reject) => {
-      if (method.length === 0) return reject(new Error('no method supplied'))
-      var protocol = (this.ssl) ? 'https' : 'http'
+    if (method.length === 0) throw new Error('no method supplied')
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s/%s', protocol, this.host, this.port, method),
-        method: 'GET',
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'User-Agent': this.userAgent
-        }
-      }).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
+    return request({
+      uri: util.format('%s://%s:%s/%s', protocol, this.host, this.port, method),
+      method: 'GET',
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'User-Agent': this.userAgent
+      }
     })
   }
 
@@ -97,26 +94,21 @@ class TurtleCoind {
    * @returns {Object} the response
    */
   _post (method, params) {
-    return new Promise((resolve, reject) => {
-      if (method.length === 0) return reject(new Error('no method supplied'))
-      params = params || {}
+    if (method.length === 0) throw new Error('no method supplied')
+    params = params || {}
 
-      var body = {
-        jsonrpc: '2.0',
-        method: method,
-        params: params
-      }
+    var body = {
+      jsonrpc: '2.0',
+      method: method,
+      params: params
+    }
 
-      this._rawPost('json_rpc', body).then((result) => {
-        if (!result.error) {
-          return resolve(result.result)
-        } else {
-          return reject(result.error.message)
-        }
-      }).catch((err) => {
-        return reject(err)
+    return this._rawPost('json_rpc', body)
+      .then(response => {
+        if (response.error) throw new Error(response.error.message)
+
+        return response.result
       })
-    })
   }
 
   /**
@@ -128,25 +120,20 @@ class TurtleCoind {
    * @returns {Object} the response
    */
   _rawPost (endpoint, body) {
-    return new Promise((resolve, reject) => {
-      if (endpoint.length === 0) return reject(new Error('no endpoint supplied'))
-      if (body === undefined) return reject(new Error('no body supplied'))
-      var protocol = (this.ssl) ? 'https' : 'http'
+    if (endpoint.length === 0) throw new new Error('no endpoint supplied')()
+    if (body === undefined) throw new new Error('no body supplied')()
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s/%s', protocol, this.host, this.port, endpoint),
-        method: 'POST',
-        body: body,
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'User-Agent': this.userAgent
-        }
-      }).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
+    return request({
+      uri: util.format('%s://%s:%s/%s', protocol, this.host, this.port, endpoint),
+      method: 'POST',
+      body: body,
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'User-Agent': this.userAgent
+      }
     })
   }
 
@@ -194,17 +181,10 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockSummary>} resolves with block summary or rejects with error
    */
   block (hash) {
-    return new Promise((resolve, reject) => {
-      if (!hash) return reject(new Error('must specify hash'))
+    if (!hash) throw new Error('must specify hash')
 
-      this._post('f_block_json', {
-        hash: hash
-      }).then((result) => {
-        return resolve(result.block)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('f_block_json', { hash })
+      .then(response => { return response.block })
   }
 
   /**
@@ -213,13 +193,8 @@ class TurtleCoind {
    * @returns {Promise&lt;number>} resolves with the current block count or rejects with error
    */
   blockCount () {
-    return new Promise((resolve, reject) => {
-      this._post('getblockcount').then((result) => {
-        return resolve(result.count)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('getblockcount')
+      .then(response => { return response.count })
   }
 
   /**
@@ -248,17 +223,10 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockHeader>} resolves with block header or rejects with error
    */
   blockHeaderByHash (hash) {
-    return new Promise((resolve, reject) => {
-      if (!hash) return reject(new Error('must specify hash'))
+    if (!hash) throw new Error('must specify hash')
 
-      this._post('getblockheaderbyhash', {
-        hash: hash
-      }).then((result) => {
-        return resolve(result.block_header)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('getblockheaderbyhash', { hash })
+      .then(response => { return response.block_head })
   }
 
   /**
@@ -268,17 +236,10 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockHeader>} resolves with block header or rejects with error
    */
   blockHeaderByHeight (height) {
-    return new Promise((resolve, reject) => {
-      if (typeof height === 'undefined') return reject(new Error('must specify height'))
+    if (typeof height === 'undefined') throw new Error('must specify height')
 
-      this._post('getblockheaderbyheight', {
-        height: height
-      }).then((result) => {
-        return resolve(result.block_header)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    this._post('getblockheaderbyheight', { height })
+      .then(response => { return response.block_header })
   }
 
   /**
@@ -300,17 +261,10 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockShortHeader[]>} resolves with block short headers or rejects with error
    */
   blockShortHeaders (height) {
-    return new Promise((resolve, reject) => {
-      if (typeof height === 'undefined') return reject(new Error('must specify height'))
+    if (typeof height === 'undefined') throw new Error('must specify height')
 
-      this._post('f_blocks_list_json', {
-        height: height
-      }).then((result) => {
-        return resolve(result.blocks)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('f_blocks_list_json', { height })
+      .then(response => { return response.blocks })
   }
 
   /**
@@ -468,24 +422,18 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlocksDetailedResponse>} resolves with blocks detail information or rejects with error
    */
   blocksDetailed (opts) {
-    return new Promise((resolve, reject) => {
-      opts = opts || {}
-      if (!Array.isArray(opts.blockHashes)) return reject(new Error('must supply an array of block hashes'))
-      if (opts.timestamp === undefined) opts.timestamp = 0
-      if (opts.blockCount === undefined) opts.blockCount = 100
+    opts = opts || {}
+    if (!Array.isArray(opts.blockHashes)) throw new Error('must supply an array of block hashes')
+    if (opts.timestamp === undefined) opts.timestamp = 0
+    if (opts.blockCount === undefined) opts.blockCount = 100
 
-      var body = {
-        blockIds: opts.blockHashes,
-        timestamp: opts.timestamp,
-        blockCount: opts.blockCount
-      }
+    var body = {
+      blockIds: opts.blockHashes,
+      timestamp: opts.timestamp,
+      blockCount: opts.blockCount
+    }
 
-      this._rawPost('queryblocksdetailed', body).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._rawPost('queryblocksdetailed', body)
   }
 
   /**
@@ -519,42 +467,41 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlocksLiteResponse>} resolves with block information or rejects with error
    */
   blocksLite (opts) {
-    return new Promise((resolve, reject) => {
-      opts = opts || {}
-      if (!Array.isArray(opts.blockHashes)) return reject(new Error('must supply an array of block hashes'))
-      if (opts.timestamp === undefined) opts.timestamp = 0
+    opts = opts || {}
+    if (!Array.isArray(opts.blockHashes)) throw new Error('must supply an array of block hashes')
+    if (opts.timestamp === undefined) opts.timestamp = 0
 
-      var body = {
-        blockIds: opts.blockHashes,
-        timestamp: opts.timestamp
-      }
+    var body = {
+      blockIds: opts.blockHashes,
+      timestamp: opts.timestamp
+    }
 
-      this._rawPost('queryblockslite', body).then((result) => {
+    return this._rawPost('queryblockslite', body)
+      .then(response => {
         /* The response returned by the daemon is a nightmare but we're going to clean it up a bit */
         const tmp = []
-        result.items.forEach((item) => {
-          const transactions = []
+        response.items
+          .forEach(item => {
+            const transactions = []
 
-          item['blockShortInfo.txPrefixes'].forEach((txn) => {
-            transactions.push({
-              hash: txn['transactionPrefixInfo.txHash'],
-              prefix: txn['transactionPrefixInfo.txPrefix']
+            item['blockShortInfo.txPrefixes']
+              .forEach(txn => {
+                transactions.push({
+                  hash: txn['transactionPrefixInfo.txHash'],
+                  prefix: txn['transactionPrefixInfo.txPrefix']
+                })
+              })
+
+            tmp.push({
+              block: Buffer.from(item['blockShortInfo.block']).toString('hex'),
+              hash: item['blockShortInfo.blockId'],
+              transactions: transactions
             })
           })
+        response.items = tmp
 
-          tmp.push({
-            block: Buffer.from(item['blockShortInfo.block']).toString('hex'),
-            hash: item['blockShortInfo.blockId'],
-            transactions: transactions
-          })
-        })
-        result.items = tmp
-
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
+        return response
       })
-    })
   }
 
   /**
@@ -576,18 +523,12 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockTemplateResponse>} resolves with block template response or rejects with error
    */
   blockTemplate (walletAddress, reserveSize) {
-    return new Promise((resolve, reject) => {
-      if (typeof reserveSize === 'undefined') return reject(new Error('must specify reserveSize'))
-      if (!walletAddress) return reject(new Error('must specify walletAddress'))
+    if (typeof reserveSize === 'undefined') throw new Error('must specify reserveSize')
+    if (!walletAddress) throw new Error('must specify walletAddress')
 
-      this._post('getblocktemplate', {
-        reserve_size: reserveSize,
-        wallet_address: walletAddress
-      }).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
+    return this._post('getblocktemplate', {
+      reserve_size: reserveSize,
+      wallet_address: walletAddress
     })
   }
 
@@ -606,13 +547,7 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.NodeFee>} resolves with node fee information or rejects with error
    */
   fee () {
-    return new Promise((resolve, reject) => {
-      this._get('fee').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._get('fee')
   }
 
   /**
@@ -622,20 +557,18 @@ class TurtleCoind {
    * @returns {Promise&lt;number[]>} resolves with indexes global output indexes or rejects with error
    */
   globalIndexes (transactionHash) {
-    return new Promise((resolve, reject) => {
-      if (typeof transactionHash === 'undefined') return reject(new Error('must supply a transaction hash'))
+    if (typeof transactionHash === 'undefined') throw new Error('must supply a transaction hash')
 
-      var body = {
-        txid: transactionHash
-      }
+    var body = {
+      txid: transactionHash
+    }
 
-      this._rawPost('get_o_indexes', body).then((result) => {
-        if (result.status.toLowerCase() !== 'ok') return reject(new Error('Transaction not found'))
-        return resolve(result.o_indexes)
-      }).catch((err) => {
-        return reject(err)
+    return this._rawPost('get_o_indexes', body)
+      .then(response => {
+        if (response.status.toLowerCase() !== 'ok') throw new Error('Transaction not found')
+
+        return response.o_indexes
       })
-    })
   }
 
   /**
@@ -654,25 +587,16 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.GlobalIndexesResponse[]>} resolves with global indexes information or rejects with error
    */
   globalIndexesForRange (startHeight, endHeight) {
-    return new Promise((resolve, reject) => {
-      if (typeof startHeight === 'undefined') return reject(new Error('Must specify start height'))
-      if (typeof endHeight === 'undefined') return reject(new Error('Must specify end height'))
+    if (typeof startHeight === 'undefined') throw new Error('Must specify start height')
+    if (typeof endHeight === 'undefined') throw new Error('Must specify end height')
 
-      this._rawPost('get_global_indexes_for_range', {
-        startHeight: startHeight,
-        endHeight: endHeight
-      }).then((result) => {
-        if (!result.status || !result.indexes) {
-          return reject(new Error('Missing indexes or status key'))
-        }
-        if (result.status.toLowerCase() !== 'ok') {
-          return reject(new Error('Status not OK'))
-        }
-        return resolve(result.indexes)
-      }).catch((err) => {
-        return reject(err)
+    this._rawPost('get_global_indexes_for_range', { startHeight, endHeight })
+      .then(response => {
+        if (!response.status || !response.indexes) throw new Error('Missing indexes or status key')
+        if (response.status.toLowerCase() !== 'ok') throw new Error('Status is not OK')
+
+        return response.indexes
       })
-    })
   }
 
   /**
@@ -690,13 +614,7 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.NodeHeight>} resolves with node height information or rejects with error
    */
   height () {
-    return new Promise((resolve, reject) => {
-      this._get('height').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._get('height')
   }
 
   /**
@@ -731,13 +649,7 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.NodeInfo>} resolves with node information or rejects with error
    */
   info () {
-    return new Promise((resolve, reject) => {
-      this._get('info').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._get('info')
   }
 
   /**
@@ -746,13 +658,8 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.BlockHeader>} resolves with block header or rejects with error
    */
   lastBlockHeader () {
-    return new Promise((resolve, reject) => {
-      this._post('getlastblockheader').then((result) => {
-        return resolve(result.block_header)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('getlastblockheader')
+      .then(response => { return response.block_header })
   }
 
   /**
@@ -770,13 +677,7 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.NodePeers>} resolves with node peer information or rejects with error
    */
   peers () {
-    return new Promise((resolve, reject) => {
-      this._get('peers').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._get('peers')
   }
 
   /**
@@ -803,33 +704,31 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.PoolChanges>} resolves with pool change information or rejects with error
    */
   poolChanges (tailBlockHash, knownTransactionHashes) {
-    return new Promise((resolve, reject) => {
-      if (tailBlockHash === undefined) return reject(new Error('must supply a tail block hash'))
-      if (!Array.isArray(knownTransactionHashes)) return reject(new Error('must supply an array of known transaction hashes'))
+    if (tailBlockHash === undefined) throw new Error('must supply a tail block hash')
+    if (!Array.isArray(knownTransactionHashes)) throw new Error('must supply an array of known transaction hashes')
 
-      var body = {
-        tailBlockId: tailBlockHash,
-        knownTxsIds: knownTransactionHashes
-      }
+    var body = {
+      tailBlockId: tailBlockHash,
+      knownTxsIds: knownTransactionHashes
+    }
 
-      this._rawPost('get_pool_changes_lite', body).then((result) => {
+    this._rawPost('get_pool_changes_lite', body)
+      .then(response => {
         /* We need to clean up the response a bit */
         const tmp = []
 
-        result.addedTxs.forEach((tx) => {
-          tmp.push({
-            hash: tx['transactionPrefixInfo.txHash'],
-            prefix: tx['transactionPrefixInfo.txPrefix']
+        response.addedTxs
+          .forEach(tx => {
+            tmp.push({
+              hash: tx['transactionPrefixInfo.txHash'],
+              prefix: tx['transactionPrefixInfo.txPrefix']
+            })
           })
-        })
 
-        result.addedTxs = tmp
+        response.addedTxs = tmp
 
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
+        return response
       })
-    })
   }
 
   /**
@@ -864,25 +763,19 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.RandomOutputsResponse>} resolves with random outputs information or rejects with error
    */
   randomOutputs (opts) {
-    return new Promise((resolve, reject) => {
-      opts = opts || {}
-      if (!Array.isArray(opts.amounts)) return reject(new Error('must supply an array of amounts'))
-      if (typeof opts.mixin === 'undefined') return reject(new Error('must supply a mixin value'))
+    opts = opts || {}
+    if (!Array.isArray(opts.amounts)) throw new Error('must supply an array of amounts')
+    if (typeof opts.mixin === 'undefined') throw new Error('must supply a mixin value')
 
-      opts.mixin = parseInt(opts.mixin)
-      if (isNaN(opts.mixin)) return reject(new Error('must supply a valid mixin value'))
+    opts.mixin = parseInt(opts.mixin)
+    if (isNaN(opts.mixin)) throw new Error('must supply a valid mixin value')
 
-      var body = {
-        amounts: opts.amounts,
-        outs_count: opts.mixin
-      }
+    var body = {
+      amounts: opts.amounts,
+      outs_count: opts.mixin
+    }
 
-      this._rawPost('getrandom_outs', body).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._rawPost('getrandom_outs', body)
   }
 
   /**
@@ -921,32 +814,29 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.RawBlocksResponse>} resolves with raw blocks information or rejects with error
    */
   rawBlocks (blockHashes, blockCount) {
-    return new Promise((resolve, reject) => {
-      if (!Array.isArray(blockHashes)) return reject(new Error('must supply an array of block hashes'))
-      if (blockCount &amp;&amp; isNaN(blockCount)) return reject(new Error('block count must be a number'))
+    if (!Array.isArray(blockHashes)) throw new Error('must supply an array of block hashes')
+    if (blockCount &amp;&amp; isNaN(blockCount)) throw new Error('block count must be a number')
 
-      const body = {
-        block_ids: blockHashes
-      }
+    const body = {
+      block_ids: blockHashes
+    }
 
-      if (blockCount) {
-        body.blockCount = Math.abs(blockCount)
-      }
+    if (blockCount) {
+      body.blockCount = Math.abs(blockCount)
+    }
 
-      this._rawPost('getblocks', body).then((result) => {
+    return this._rawPost('getblocks', body)
+      .then(response => {
         /* We need to do a little bit of massaging here on this
            response because the daemon returns some funny
            business that we don't care for in JS */
-        return resolve({
-          blocks: result['response.blocks'],
-          current_height: result['response.current_height'],
-          start_height: result['response.start_height'],
-          status: result['response.status']
-        })
-      }).catch((err) => {
-        return reject(err)
+        return {
+          blocks: response['response.blocks'],
+          current_height: response['response.current_height'],
+          start_height: response['response.start_height'],
+          status: response['response.status']
+        }
       })
-    })
   }
 
   /**
@@ -964,17 +854,9 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.SendRawTransactionResponse>} resolves with send raw transaction information or rejects with error
    */
   sendRawTransaction (transaction) {
-    return new Promise((resolve, reject) => {
-      if (!transaction) return reject(new Error('must specify raw serialized transaction'))
+    if (!transaction) throw new Error('must specify raw serialized transaction')
 
-      this._rawPost('sendrawtransaction', {
-        tx_as_hex: transaction
-      }).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._rawPost('sendrawtransaction', { tx_as_hex: transaction })
   }
 
   /**
@@ -991,17 +873,9 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.SubmitBlockResponse>} resolves with submit block response or rejects with error
    */
   submitBlock (blockBlob) {
-    return new Promise((resolve, reject) => {
-      if (!blockBlob) return reject(new Error('must specify blockBlob'))
+    if (!blockBlob) throw new Error('must specify blockBlob')
 
-      this._post('submitblock', [
-        blockBlob
-      ]).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('submitblock', [blockBlob])
   }
 
   /**
@@ -1079,18 +953,14 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.TransactionResponse>} resolves with transaction response or rejects with error
    */
   transaction (hash) {
-    return new Promise((resolve, reject) => {
-      if (!hash) return reject(new Error('must specify hash'))
+    if (!hash) throw new Error('must specify hash')
 
-      this._post('f_transaction_json', {
-        hash: hash
-      }).then((result) => {
-        if (result.tx &amp;&amp; result.tx['']) delete result.tx['']
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
+    return this._post('f_transaction_json', { hash })
+      .then(response => {
+        if (response.tx &amp;&amp; response.tx['']) delete response.tx['']
+
+        return response
       })
-    })
   }
 
   /**
@@ -1099,13 +969,8 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.TransactionSummary[]>} resolves with the transaction summaries or rejects with error
    */
   transactionPool () {
-    return new Promise((resolve, reject) => {
-      this._post('f_on_transactions_pool_json').then((result) => {
-        return resolve(result.transactions)
-      }).catch((err) => {
-        return reject(err)
-      })
-    })
+    return this._post('f_on_transactions_pool_json')
+      .then(response => { return response.transactions })
   }
 
   /**
@@ -1120,33 +985,23 @@ class TurtleCoind {
   /**
    * Returns the status of the transaction hashes provided
    * @async
-   * @param {string} transactionHashes - the transaction hashes to checked
+   * @param {string[]} transactionHashes - the transaction hashes to checked
    * @returns {Promise&lt;TurtleCoind.TransactionsStatusResponse>} resolves with the transactions statuses or rejects with error
    */
-  transactionsStatus (opts) {
-    return new Promise((resolve, reject) => {
-      opts = opts || {}
+  transactionsStatus (transactionHashes) {
+    if (!Array.isArray(transactionHashes)) throw new Error('Must specify transaction hashes')
 
-      if (!opts.transactionHashes) return reject(new Error('Must specify transaction hashes'))
+    this._rawPost('get_transactions_status', { transactionHashes })
+      .then(response => {
+        if (!response.status || !response.transactionsInPool || !response.transactionsInBlock || !response.transactionsUnknown) throw new Error('Missing status of transactions key')
+        if (response.status.toLowerCase() !== 'ok') throw new Error('Status is not OK')
 
-      this._rawPost('get_transactions_status', {
-        transactionHashes: opts.transactionHashes
-      }).then((result) => {
-        if (!result.status || !result.transactionsInPool || !result.transactionsInBlock || !result.transactionsUnknown) {
-          return reject(new Error('Missing status or transactions key'))
+        return {
+          transactionsInPool: response.transactionsInPool,
+          transactionsInBlock: response.transactionsInBlock,
+          transactionsUnknown: response.transactionsUnknown
         }
-        if (result.status !== 'OK') {
-          return reject(new Error('Status not OK'))
-        }
-        return resolve({
-          transactionsInPool: result.transactionsInPool,
-          transactionsInBlock: result.transactionsInBlock,
-          transactionsUnknown: result.transactionsUnknown
-        })
-      }).catch((err) => {
-        return reject(err)
       })
-    })
   }
 
   /**
@@ -1206,41 +1061,34 @@ class TurtleCoind {
    * @returns {Promise&lt;TurtleCoind.WalletSyncDataResponse>} resolves with sync data response or rejects with error
    */
   walletSyncData (opts) {
-    return new Promise((resolve, reject) => {
-      opts = opts || {}
+    opts = opts || {}
 
-      if (typeof opts.startHeight === 'undefined') {
-        opts.startHeight = 0
-      }
+    if (typeof opts.startHeight === 'undefined') {
+      opts.startHeight = 0
+    }
 
-      if (typeof opts.startTimestamp === 'undefined') {
-        opts.startTimestamp = 0
-      }
+    if (typeof opts.startTimestamp === 'undefined') {
+      opts.startTimestamp = 0
+    }
 
-      if (!opts.blockHashCheckpoints) {
-        opts.blockHashCheckpoints = {}
-      }
+    if (!opts.blockHashCheckpoints) {
+      opts.blockHashCheckpoints = []
+    }
 
-      if (typeof opts.skipCoinbaseTransactions === 'undefined') {
-        opts.skipCoinbaseTransactions = false
-      }
+    if (typeof opts.skipCoinbaseTransactions === 'undefined') {
+      opts.skipCoinbaseTransactions = false
+    }
 
-      this._rawPost('getwalletsyncdata', {
-        startHeight: opts.startHeight,
-        startTimestamp: opts.startTimestamp,
-        blockHashCheckpoints: opts.blockHashCheckpoints,
-        skipCoinbaseTransactions: opts.skipCoinbaseTransactions
-      }).then((result) => {
-        if (!result.status || !result.items) {
-          return reject(new Error('Missing items or status key'))
-        }
-        if (result.status !== 'OK') {
-          return reject(new Error('Status not OK'))
-        }
-        return resolve(result)
-      }).catch((err) => {
-        return reject(err)
-      })
+    return this._rawPost('getwalletsyncdata', {
+      startHeight: opts.startHeight,
+      startTimestamp: opts.startTimestamp,
+      blockHashCheckpoints: opts.blockHashCheckpoints,
+      skipCoinbaseTransactions: opts.skipCoinbaseTransactions
+    }).then(response => {
+      if (!response.status || !response.items) throw new Error('Missing items or status key')
+      if (response.status.toLowerCase() !== 'ok') throw new Error('Status is not OK')
+
+      return response
     })
   }
 }
@@ -1262,7 +1110,7 @@ module.exports = TurtleCoind
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 15:35:14 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 31 2019 09:17:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

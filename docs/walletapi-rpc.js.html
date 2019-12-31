@@ -51,6 +51,7 @@ class WalletAPI {
    * @param {number} [opts.decimalDivisor=100] - the decimal divisor of atomic amounts
    * @param {number} [opts.defaultUnlockTime=0] - the default unlock time for new transactions
    * @param {string} [opts.userAgent=turtlecoin-rpc/version] - the user agent string to use with requests
+   * @param {boolen} [opts.keepAlive=true] - whether the underying HTTP(s) connection should be kept alive and reused
    */
   constructor (opts) {
     opts = opts || {}
@@ -65,6 +66,7 @@ class WalletAPI {
     this.decimalDivisor = opts.decimalDivisor || 100
     this.defaultUnlockTime = opts.defaultUnlockTime || 0
     this.userAgent = opts.userAgent || util.format('%s/%s', packageInfo.name, packageInfo.version)
+    this.keepAlive = (typeof opts.keepAlive !== 'undefined') ? opts.keepAlive : true
 
     if (!this.password) {
       throw new Error('Must supply a password')
@@ -79,25 +81,21 @@ class WalletAPI {
    * @returns {Object} the response
    */
   _delete (path) {
-    return new Promise((resolve, reject) => {
-      if (!path) return reject(new Error('Must supply a path'))
-      const protocol = (this.ssl) ? 'https' : 'http'
+    if (!path) throw new Error('Must supply a path')
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
-        method: 'DELETE',
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'X-API-KEY': this.password,
-          'User-Agent': this.userAgent
-        }
-      }).then((result) => {
-        return resolve(result)
-      }).catch((error) => {
-        return reject(error)
-      })
+    return request({
+      uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
+      method: 'DELETE',
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'X-API-KEY': this.password,
+        'User-Agent': this.userAgent
+      }
     })
+      .catch(error => { throw handleError(error) })
   }
 
   /**
@@ -108,25 +106,21 @@ class WalletAPI {
    * @returns {Object} the response
    */
   _get (path) {
-    return new Promise((resolve, reject) => {
-      if (!path) return reject(new Error('Must supply a path'))
-      const protocol = (this.ssl) ? 'https' : 'http'
+    if (!path) throw new Error('Must supply a path')
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
-        method: 'GET',
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'X-API-KEY': this.password,
-          'User-Agent': this.userAgent
-        }
-      }).then((result) => {
-        return resolve(result)
-      }).catch((error) => {
-        return reject(error)
-      })
+    return request({
+      uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
+      method: 'GET',
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'X-API-KEY': this.password,
+        'User-Agent': this.userAgent
+      }
     })
+      .catch(error => { throw handleError(error) })
   }
 
   /**
@@ -138,26 +132,22 @@ class WalletAPI {
    * @returns {Object} the response
    */
   _post (path, payload) {
-    return new Promise((resolve, reject) => {
-      if (!path) return reject(new Error('Must supply a path'))
-      const protocol = (this.ssl) ? 'https' : 'http'
+    if (!path) throw new Error('Must supply a path')
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
-        method: 'POST',
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'X-API-KEY': this.password,
-          'User-Agent': this.userAgent
-        },
-        body: payload
-      }).then((result) => {
-        return resolve(result)
-      }).catch((error) => {
-        return reject(error)
-      })
+    return request({
+      uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
+      method: 'POST',
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'X-API-KEY': this.password,
+        'User-Agent': this.userAgent
+      },
+      body: payload
     })
+      .catch(error => { throw handleError(error) })
   }
 
   /**
@@ -169,26 +159,22 @@ class WalletAPI {
    * @returns {Object} the response
    */
   _put (path, payload) {
-    return new Promise((resolve, reject) => {
-      if (!path) return reject(new Error('Must supply a path'))
-      const protocol = (this.ssl) ? 'https' : 'http'
+    if (!path) throw new Error('Must supply a path')
+    const protocol = (this.ssl) ? 'https' : 'http'
 
-      request({
-        uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
-        method: 'PUT',
-        json: true,
-        timeout: this.timeout,
-        headers: {
-          'X-API-KEY': this.password,
-          'User-Agent': this.userAgent
-        },
-        body: payload
-      }).then((result) => {
-        return resolve(result)
-      }).catch((error) => {
-        return reject(error)
-      })
+    return request({
+      uri: util.format('%s://%s:%s%s', protocol, this.host, this.port, path),
+      method: 'PUT',
+      json: true,
+      timeout: this.timeout,
+      forever: this.keepAlive,
+      headers: {
+        'X-API-KEY': this.password,
+        'User-Agent': this.userAgent
+      },
+      body: payload
     })
+      .catch(error => { throw handleError(error) })
   }
 
   /**
@@ -203,13 +189,8 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.Addresses>} resolves if success else rejects with error
    */
   addresses () {
-    return new Promise((resolve, reject) => {
-      this._get('/addresses').then((result) => {
-        return resolve(result.addresses)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get('/addresses')
+      .then(response => { return response.addresses })
   }
 
   /**
@@ -228,19 +209,15 @@ class WalletAPI {
    */
   balance (address) {
     address = address || false
+    const url = (address) ? util.format('/balance/%s', address) : '/balance'
 
-    return new Promise((resolve, reject) => {
-      const url = (address) ? util.format('/balance/%s', address) : '/balance'
-      this._get(url).then((result) => {
-        /* Convert the amounts to human readable amounts */
-        result.unlocked = this.fromAtomicUnits(result.unlocked)
-        result.locked = this.fromAtomicUnits(result.locked)
+    return this._get(url)
+      .then(response => {
+        response.unlocked = this.fromAtomicUnits(response.unlocked)
+        response.locked = this.fromAtomicUnits(response.locked)
 
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response
       })
-    })
   }
 
   /**
@@ -249,19 +226,15 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.Balance[]>} resolves if success else rejects with error
    */
   balances () {
-    return new Promise((resolve, reject) => {
-      this._get('/balances').then((result) => {
-        /* Convert the amounts to human readable amounts */
-        for (var i = 0; i &lt; result.length; i++) {
-          result[i].unlocked = this.fromAtomicUnits(result[i].unlocked)
-          result[i].locked = this.fromAtomicUnits(result[i].locked)
+    return this._get('/balances')
+      .then(response => {
+        for (var i = 0; i &lt; response.length; i++) {
+          response[i].unlocked = this.fromAtomicUnits(response[i].unlocked)
+          response[i].locked = this.fromAtomicUnits(response[i].locked)
         }
 
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response
       })
-    })
   }
 
   /**
@@ -270,13 +243,7 @@ class WalletAPI {
    * @returns {Promise} resolves if success else rejects with error
    */
   close () {
-    return new Promise((resolve, reject) => {
-      this._delete('/wallet').then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._delete('/wallet')
   }
 
   /**
@@ -284,32 +251,20 @@ class WalletAPI {
    * @async
    * @param {string} filename - the filename for the new wallet container
    * @param {string} password - the password for the wallet container
-   * @param {string} [host=127.0.0.1] - the node to use for the wallet container
-   * @param {number} [port=11898] - the node port to use for the wallet container
-   * @param {boolean} [ssl=false] - if the node uses SSL
+   * @param {string} [daemonHost=127.0.0.1] - the node to use for the wallet container
+   * @param {number} [daemonPort=11898] - the node port to use for the wallet container
+   * @param {boolean} [daemonSSL=false] - if the node uses SSL
    * @returns {Promise} resolves if success else rejects with error
    */
-  create (filename, password, host, port, ssl) {
-    host = host || '127.0.0.1'
-    port = port || 11898
-    ssl = ssl || false
+  create (filename, password, daemonHost, daemonPort, daemonSSL) {
+    daemonHost = daemonHost || '127.0.0.1'
+    daemonPort = daemonPort || 11898
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!filename) return reject(new Error('Must supply wallet filename'))
-      if (!password) return reject(new Error('Must supply wallet password'))
+    if (!filename) throw new Error('Must supply wallet filename')
+    if (!password) throw new Error('Must supply wallet password')
 
-      this._post('/wallet/create', {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl,
-        filename: filename,
-        password: password
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/wallet/create', { daemonHost, daemonPort, daemonSSL, filename, password })
   }
 
   /**
@@ -318,6 +273,7 @@ class WalletAPI {
    * @property {string} [address] - the wallet address
    * @property {string} privateSpendKey - the wallet private spend key
    * @property {string} publicSpendKey - the wallet public spend key
+   * @property {number} walletIndex - the deterministic wallet index
    */
 
   /**
@@ -326,13 +282,7 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.Wallet>} resolves if success else rejects with error
    */
   createAddress () {
-    return new Promise((resolve, reject) => {
-      this._post('/addresses/create').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/addresses/create')
   }
 
   /**
@@ -346,17 +296,11 @@ class WalletAPI {
     address = address || false
     paymentId = paymentId || false
 
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply wallet address'))
-      if (!paymentId) return reject(new Error('Must supply payment ID'))
+    if (!paymentId) throw new Error('Must supply payment ID')
+    const url = util.format('/addresses/%s/%s', address, paymentId)
 
-      const url = util.format('/addresses/%s/%s', address, paymentId)
-      this._get(url).then((result) => {
-        return resolve(result.integratedAddress)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get(url)
+      .then(response => { return response.integratedAddress })
   }
 
   /**
@@ -367,16 +311,10 @@ class WalletAPI {
    */
   deleteAddress (address) {
     address = address || false
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply wallet address'))
+    if (!address) throw new Error('Must supply wallet address')
+    const url = util.format('/addresses/%s', address)
 
-      const url = util.format('/addresses/%s', address)
-      this._delete(url).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._delete(url)
   }
 
   /**
@@ -407,13 +345,7 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.NodeInfo>} resolves if success else rejects with error
    */
   getNode () {
-    return new Promise((resolve, reject) => {
-      this._get('/node').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get('/node')
   }
 
   /**
@@ -427,18 +359,27 @@ class WalletAPI {
     privateSpendKey = privateSpendKey || false
     scanHeight = scanHeight || 0
 
-    return new Promise((resolve, reject) => {
-      if (!privateSpendKey) return reject(new Error('Must supply private spend key'))
+    if (!privateSpendKey) throw new Error('Must supply private spend key')
 
-      this._post('/addresses/import', {
-        privateSpendKey: privateSpendKey,
-        scanHeight: scanHeight
-      }).then((result) => {
-        return resolve(result.address)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/addresses/import', { privateSpendKey, scanHeight })
+      .then(response => { return response.address })
+  }
+
+  /**
+   * Imports a determinisic subwallet with the given wallet index number
+   * @async
+   * @param {number} walletIndex - the index of the deterministic subwallet
+   * @param {number} [scanHeight=0] - the height to start scanning from upon import
+   * @returns {Promise&lt;string>} results with the wallet address if success else rejects with error
+   */
+  importDeterministic (walletIndex, scanHeight) {
+    walletIndex = walletIndex || 0
+    scanHeight = scanHeight || 0
+
+    if (!walletIndex || isNaN(walletIndex)) throw new Error('Must supply valid wallet index')
+
+    return this._post('/addresses/import/deterministic', { walletIndex, scanHeight })
+      .then(response => { return response.address })
   }
 
   /**
@@ -449,38 +390,23 @@ class WalletAPI {
    * @param {string} prviateViewKey - the private view key to import
    * @param {string} privateSpendKey - the private spend key to import
    * @param {number} [scanHeight=0] - the height to import the wallet from
-   * @param {string} [host=127.0.0.1] - the host of the node to use
-   * @param {number} [port=11898] - the port of the node to use
-   * @param {boolean} [ssl=false] - whether the node uses SSL
+   * @param {string} [daemonHost=127.0.0.1] - the host of the node to use
+   * @param {number} [daemonPort=11898] - the port of the node to use
+   * @param {boolean} [daemonSSL=false] - whether the node uses SSL
    * @returns {Promise} resolves upon success else rejects with error
    */
-  importKey (filename, password, privateViewKey, privateSpendKey, scanHeight, host, port, ssl) {
+  importKey (filename, password, privateViewKey, privateSpendKey, scanHeight, daemonHost, daemonPort, daemonSSL) {
     scanHeight = scanHeight || 0
-    host = host || '127.0.0.1'
-    port = port || 11898
-    ssl = ssl || false
+    daemonHost = daemonHost || '127.0.0.1'
+    daemonPort = daemonPort || 11898
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!filename) return reject(new Error('Must supply wallet filename'))
-      if (!password) return reject(new Error('Must supply wallet password'))
-      if (!privateViewKey) return reject(new Error('Must supply private view key'))
-      if (!privateSpendKey) return reject(new Error('Must supply private spend key'))
+    if (!filename) throw new Error('Must supply wallet filename')
+    if (!password) throw new Error('Must supply wallet password')
+    if (!privateViewKey) throw new Error('Must supply private view key')
+    if (!privateSpendKey) throw new Error('Must supply private spend key')
 
-      this._post('/wallet/import/key', {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl,
-        filename: filename,
-        password: password,
-        scanHeight: scanHeight,
-        privateViewKey: privateViewKey,
-        privateSpendKey: privateSpendKey
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/wallet/import/key', { daemonHost, daemonPort, daemonSSL, filename, password, scanHeight, privateViewKey, privateSpendKey })
   }
 
   /**
@@ -490,36 +416,22 @@ class WalletAPI {
    * @param {string} password - the password of the new wallet container
    * @param {string} mnemonicSeed - the mnemonic seed of the wallet to import
    * @param {number} [scanHeight=0] - the height to import the wallet from
-   * @param {string} [host=127.0.0.1] - the host of the node to use
-   * @param {number} [port=11898] - the port of the node to use
-   * @param {boolean} [ssl=false] - whether the node uses SSL
+   * @param {string} [daemonHost=127.0.0.1] - the host of the node to use
+   * @param {number} [daemonPort=11898] - the port of the node to use
+   * @param {boolean} [daemonSSL=false] - whether the node uses SSL
    * @returns {Promise} resolves upon success else rejects with error
    */
-  importSeed (filename, password, mnemonicSeed, scanHeight, host, port, ssl) {
+  importSeed (filename, password, mnemonicSeed, scanHeight, daemonHost, daemonPort, daemonSSL) {
     scanHeight = scanHeight || 0
-    host = host || '127.0.0.1'
-    port = port || 11898
-    ssl = ssl || false
+    daemonHost = daemonHost || '127.0.0.1'
+    daemonPort = daemonPort || 11898
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!filename) return reject(new Error('Must supply wallet filename'))
-      if (!password) return reject(new Error('Must supply wallet password'))
-      if (!mnemonicSeed) return reject(new Error('Must supply mnemonic seed phrase'))
+    if (!filename) throw new Error('Must supply wallet filename')
+    if (!password) throw new Error('Must supply wallet password')
+    if (!mnemonicSeed) throw new Error('Must supply mnemonic seed phrase')
 
-      this._post('/wallet/import/seed', {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl,
-        filename: filename,
-        password: password,
-        scanHeight: scanHeight,
-        mnemonicSeed: mnemonicSeed
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/wallet/import/seed', { daemonHost, daemonPort, daemonSSL, filename, password, scanHeight, mnemonicSeed })
   }
 
   /**
@@ -527,24 +439,15 @@ class WalletAPI {
    * @async
    * @param {string} publicSpendKey - the public spend key of the subwallet to import
    * @param {number} [scanHeight=0] - the height to import the wallet from
-   * @returns {Promise} resolves upon success else rejects with error
+   * @returns {Promise&lt;string>} resolves with address upon success else rejects with error
    */
   importViewAddress (publicSpendKey, scanHeight) {
     publicSpendKey = publicSpendKey || false
     scanHeight = scanHeight || 0
 
-    return new Promise((resolve, reject) => {
-      if (!publicSpendKey) return reject(new Error('Must supply public spend key'))
-
-      this._post('/addresses/import/view', {
-        publicSpendKey: publicSpendKey,
-        scanHeight: scanHeight
-      }).then((result) => {
-        return resolve(result.address)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    if (!publicSpendKey) throw new Error('Must supply public spend key')
+    return this._post('/addresses/import/view', { publicSpendKey, scanHeight })
+      .then(response => { return response.address })
   }
 
   /**
@@ -555,38 +458,23 @@ class WalletAPI {
    * @param {string} prviateViewKey - the private view key to import
    * @param {string} address - the wallet address
    * @param {number} [scanHeight=0] - the height to import the wallet from
-   * @param {string} [host=127.0.0.1] - the host of the node to use
-   * @param {number} [port=11898] - the port of the node to use
-   * @param {boolean} [ssl=false] - whether the node uses SSL
+   * @param {string} [daemonHost=127.0.0.1] - the host of the node to use
+   * @param {number} [daemonPort=11898] - the port of the node to use
+   * @param {boolean} [daemonSSL=false] - whether the node uses SSL
    * @returns {Promise} resolves upon success else rejects with error
    */
-  importViewOnly (filename, password, privateViewKey, address, scanHeight, host, port, ssl) {
+  importViewOnly (filename, password, privateViewKey, address, scanHeight, daemonHost, daemonPort, daemonSSL) {
     scanHeight = scanHeight || 0
-    host = host || '127.0.0.1'
-    port = port || 11898
-    ssl = ssl || false
+    daemonHost = daemonHost || '127.0.0.1'
+    daemonPort = daemonPort || 11898
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!filename) return reject(new Error('Must supply wallet filename'))
-      if (!password) return reject(new Error('Must supply wallet password'))
-      if (!privateViewKey) return reject(new Error('Must supply private view key'))
-      if (!address) return reject(new Error('Must supply wallet address'))
+    if (!filename) throw new Error('Must supply wallet filename')
+    if (!password) throw new Error('Must supply wallet password')
+    if (!privateViewKey) throw new Error('Must supply private view key')
+    if (!address) throw new Error('Must supply wallet address')
 
-      this._post('/wallet/import/view', {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl,
-        filename: filename,
-        password: password,
-        scanHeight: scanHeight,
-        privateViewKey: privateViewKey,
-        address: address
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/wallet/import/view', { daemonHost, daemonPort, daemonSSL, filename, password, scanHeight, privateViewKey, address })
   }
 
   /**
@@ -597,16 +485,13 @@ class WalletAPI {
    */
   keys (address) {
     address = address || false
+    const url = (address) ? util.format('/keys/%s', address) : '/keys'
 
-    return new Promise((resolve, reject) => {
-      const url = (address) ? util.format('/keys/%s', address) : '/keys'
-      this._get(url).then((result) => {
-        if (result.privateViewKey) return resolve(result.privateViewKey)
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
+    return this._get(url)
+      .then(response => {
+        if (response.privateViewKey) return response.privateViewKey
+        return response
       })
-    })
   }
 
   /**
@@ -618,16 +503,11 @@ class WalletAPI {
   keysMnemonic (address) {
     address = address || false
 
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply a wallet address'))
+    if (!address) throw new Error('Must supply a wallet address')
+    const url = util.format('/keys/mnemonic/%s', address)
 
-      const url = util.format('/keys/mnemonic/%s', address)
-      this._get(url).then((result) => {
-        return resolve(result.mnemonicSeed)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get(url)
+      .then(response => { return response.mnemonicSeed })
   }
 
   /**
@@ -655,32 +535,20 @@ class WalletAPI {
    * @async
    * @param {string} filename - the filename of the wallet container
    * @param {string} password - the password of the wallet container
-   * @param {string} [host=127.0.0.1] - the host of the node to use
-   * @param {number} [port=11898] - the port of the node to use
-   * @param {boolean} [ssl=false] - whether the node uses SSL
+   * @param {string} [daemonHost=127.0.0.1] - the host of the node to use
+   * @param {number} [daemonPort=11898] - the port of the node to use
+   * @param {boolean} [daemonSSL=false] - whether the node uses SSL
    * @returns {Promise} resolves upon success else rejects with error
    */
-  open (filename, password, host, port, ssl) {
-    host = host || '127.0.0.1'
-    port = port || 11898
-    ssl = ssl || false
+  open (filename, password, daemonHost, daemonPort, daemonSSL) {
+    daemonHost = daemonHost || '127.0.0.1'
+    daemonPort = daemonPort || 11898
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!filename) return reject(new Error('Must supply wallet filename'))
-      if (!password) return reject(new Error('Must supply wallet password'))
+    if (!filename) throw new Error('Must supply wallet filename')
+    if (!password) throw new Error('Must supply wallet password')
 
-      this._post('/wallet/open', {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl,
-        filename: filename,
-        password: password
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/wallet/open', { daemonHost, daemonPort, daemonSSL, filename, password })
   }
 
   /**
@@ -689,13 +557,8 @@ class WalletAPI {
    * @returns {Promise&lt;string>} resolves with the wallet address or rejects with error
    */
   primaryAddress () {
-    return new Promise((resolve, reject) => {
-      this._get('/addresses/primary').then((result) => {
-        return resolve(result.address)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get('/addresses/primary')
+      .then(response => { return response.address })
   }
 
   /**
@@ -707,15 +570,7 @@ class WalletAPI {
   reset (scanHeight) {
     scanHeight = scanHeight || 0
 
-    return new Promise((resolve, reject) => {
-      this._put('/reset', {
-        scanHeight: scanHeight
-      }).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._put('/reset', { scanHeight })
   }
 
   /**
@@ -724,13 +579,7 @@ class WalletAPI {
    * @returns {Promise} resolves upon success else rejects with error
    */
   save () {
-    return new Promise((resolve, reject) => {
-      this._put('/save').then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._put('/save')
   }
 
   /**
@@ -756,37 +605,32 @@ class WalletAPI {
 
     fee = this.toAtomicUnits(fee)
 
-    return new Promise((resolve, reject) => {
-      if (!Array.isArray(destinations)) return reject(new Error('Must supply an array of destinations'))
+    if (!Array.isArray(destinations)) throw new Error('Must supply an array of destinations')
 
-      for (var i = 0; i &lt; destinations.length; i++) {
-        if (!destinations[i].address) return reject(new Error('Must supply a wallet address in destination object'))
-        if (typeof destinations[i].amount === 'undefined') return reject(new Error('Must supply an amount in destination object'))
-      }
+    for (var i = 0; i &lt; destinations.length; i++) {
+      if (!destinations[i].address) throw new Error('Must supply a wallet address in destination object')
+      if (typeof destinations[i].amount === 'undefined') throw new Error('Must supply an amount in destination object')
+    }
 
-      if (!Array.isArray(sourceAddresses)) return reject(new Error('Must supply an array of source wallet addresses'))
+    if (!Array.isArray(sourceAddresses)) throw new Error('Must supply an array of source wallet addresses')
 
-      const request = {
-        destinations: destinations,
-        mixin: mixin,
-        fee: fee,
-        sourceAddresses: sourceAddresses,
-        paymentID: paymentId,
-        changeAddress: changeAddress,
-        unlockTime: unlockTime
-      }
+    const request = {
+      destinations: destinations,
+      mixin: mixin,
+      fee: fee,
+      sourceAddresses: sourceAddresses,
+      paymentID: paymentId,
+      changeAddress: changeAddress,
+      unlockTime: unlockTime
+    }
 
-      if (!request.mixin) delete request.mixin
-      if (request.sourceAddresses.length === 0) delete request.sourceAddresses
-      if (!request.paymentID) delete request.paymentID
-      if (!request.changeAddress) delete request.changeAddress
+    if (!request.mixin) delete request.mixin
+    if (request.sourceAddresses.length === 0) delete request.sourceAddresses
+    if (!request.paymentID) delete request.paymentID
+    if (!request.changeAddress) delete request.changeAddress
 
-      this._post('/transactions/send/advanced', request).then((result) => {
-        return resolve(result.transactionHash)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/transactions/send/advanced', request)
+      .then(response => { return response.transactionHash })
   }
 
   /**
@@ -802,26 +646,21 @@ class WalletAPI {
     amount = amount || false
     paymentId = paymentId || false
 
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply wallet address'))
-      if (typeof amount === 'undefined') return reject(new Error('Must supply amount'))
+    if (!address) throw new Error('Must supply wallet address')
+    if (typeof amount === 'undefined') throw new Error('Must supply amount')
 
-      amount = this.toAtomicUnits(amount)
+    amount = this.toAtomicUnits(amount)
 
-      const request = {
-        destination: address,
-        amount: amount,
-        paymentID: paymentId
-      }
+    const request = {
+      destination: address,
+      amount: amount,
+      paymentID: paymentId
+    }
 
-      if (!request.paymentID) delete request.paymentID
+    if (!request.paymentID) delete request.paymentID
 
-      this._post('/transactions/send/basic', request).then((result) => {
-        return resolve(result.transactionHash)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/transactions/send/basic', request)
+      .then(response => { return response.transactionHash })
   }
 
   /**
@@ -837,25 +676,20 @@ class WalletAPI {
     mixin = mixin || this.defaultMixin
     sourceAddresses = sourceAddresses || []
 
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply a wallet address'))
-      if (!Array.isArray(sourceAddresses)) return reject(new Error('Must supply an array of source wallet addresses'))
+    if (!address) throw new Error('Must supply a wallet address')
+    if (!Array.isArray(sourceAddresses)) throw new Error('Must supply an array of source wallet addresses')
 
-      const request = {
-        destination: address,
-        mixin: mixin,
-        sourceAddresses: sourceAddresses
-      }
+    const request = {
+      destination: address,
+      mixin: mixin,
+      sourceAddresses: sourceAddresses
+    }
 
-      if (!request.mixin) delete request.mixin
-      if (request.sourceAddresses.length === 0) delete request.sourceAddresses
+    if (!request.mixin) delete request.mixin
+    if (request.sourceAddresses.length === 0) delete request.sourceAddresses
 
-      this._post('/transactions/send/fusion/advanced', request).then((result) => {
-        return resolve(result.transactionHash)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/transactions/send/fusion/advanced', request)
+      .then(response => { return response.transactionHash })
   }
 
   /**
@@ -864,46 +698,31 @@ class WalletAPI {
    * @returns {Promise&lt;string>} resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
    */
   sendFusionBasic () {
-    return new Promise((resolve, reject) => {
-      this._post('/transactions/send/fusion/basic').then((result) => {
-        return resolve(result.transactionHash)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/transactions/send/fusion/basic')
+      .then(response => { return response.transactionHash })
   }
 
   /**
    * Sets the node to connect use in syncing operations
    * @async
-   * @param {string} host - the host of the node to use
-   * @param {number} port - the port of the node to use
-   * @param {boolean} [ssl] - whether the node uses SSL
+   * @param {string} daemonHost - the host of the node to use
+   * @param {number} daemonPort - the port of the node to use
+   * @param {boolean} [daemonSSL] - whether the node uses SSL
    * @returns {Promise} resolves upon success else rejects with error
    */
-  setNode (host, port, ssl) {
-    host = host || false
-    port = port || false
-    ssl = ssl || false
+  setNode (daemonHost, daemonPort, daemonSSL) {
+    daemonHost = daemonHost || false
+    daemonPort = daemonPort || false
+    daemonSSL = daemonSSL || false
 
-    return new Promise((resolve, reject) => {
-      if (!host &amp;&amp; !port) return reject(new Error('Must specify a minimum a host or port parameter'))
+    if (!daemonHost &amp;&amp; !daemonPort) throw new Error('Must specify a minimum a host or port parameter')
 
-      const request = {
-        daemonHost: host,
-        daemonPort: port,
-        daemonSSL: ssl
-      }
+    const request = { daemonHost, daemonPort, daemonSSL }
 
-      if (!request.daemonHost) delete request.daemonHost
-      if (!request.daemonPort) delete request.daemonPort
+    if (!request.daemonHost) delete request.daemonHost
+    if (!request.daemonPort) delete request.daemonPort
 
-      this._put('/node', request).then(() => {
-        return resolve()
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._put('/node')
   }
 
   /**
@@ -924,13 +743,7 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.StatusInfo>} resolves upon success else rejects with error
    */
   status () {
-    return new Promise((resolve, reject) => {
-      this._get('/status').then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._get('/status')
   }
 
   /**
@@ -966,23 +779,19 @@ class WalletAPI {
   transactionByHash (hash) {
     hash = hash || false
 
-    return new Promise((resolve, reject) => {
-      if (!hash) return reject(new Error('Must supply transaction hash'))
+    if (!hash) throw new Error('Must supply transaction hash')
+    const url = util.format('/transactions/hash/%s', hash)
 
-      const url = util.format('/transactions/hash/%s', hash)
-      this._get(url).then((result) => {
-        /* Convert amounts to human readable amounts */
-        result.transaction.fee = this.fromAtomicUnits(result.transaction.fee)
+    return this._get(url)
+      .then(response => {
+        response.transaction.fee = this.fromAtomicUnits(response.transaction.fee)
 
-        for (var i = 0; i &lt; result.transaction.transfers.length; i++) {
-          result.transaction.transfers[i].amount = this.fromAtomicUnits(result.transaction.transfers[i].amount)
+        for (var i = 0; i &lt; response.transaction.transfers.length; i++) {
+          response.transaction.transfers[i].amount = this.fromAtomicUnits(response.transaction.transfers[i].amount)
         }
 
-        return resolve(result.transaction)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response.transaction
       })
-    })
   }
 
   /**
@@ -994,16 +803,11 @@ class WalletAPI {
   transactionPrivateKey (hash) {
     hash = hash || false
 
-    return new Promise((resolve, reject) => {
-      if (!hash) return reject(new Error('Must supply transaction hash'))
+    if (!hash) throw new Error('Must supply transaction hash')
+    const url = util.format('/transactions/privatekey/%s', hash)
 
-      const url = util.format('/transactions/privatekey/%s', hash)
-      this._get(url).then((result) => {
-        return resolve(result.transactionPrivateKey)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    this._get(url)
+      .then(response => { return response.transactionPrivateKey })
   }
 
   /**
@@ -1017,31 +821,27 @@ class WalletAPI {
     startHeight = startHeight || false
     endHeight = endHeight || false
 
-    return new Promise((resolve, reject) => {
-      var url = '/transactions'
+    var url = '/transactions'
 
-      if (startHeight) {
-        url += util.format('/%s', startHeight)
-        if (endHeight) {
-          url += util.format('/%s', endHeight)
-        }
+    if (startHeight) {
+      url += util.format('/%s', startHeight)
+      if (endHeight) {
+        url += util.format('/%s', endHeight)
       }
+    }
 
-      this._get(url).then((result) => {
-        /* Convert amounts to human readable amounts */
-        for (var i = 0; i &lt; result.transactions.length; i++) {
-          result.transactions[i].fee = this.fromAtomicUnits(result.transactions[i].fee)
+    return this._get(url)
+      .then(response => {
+        for (var i = 0; i &lt; response.transactions.length; i++) {
+          response.transactions[i].fee = this.fromAtomicUnits(response.transactions[i].fee)
 
-          for (var j = 0; j &lt; result.transactions[i].transfers.length; j++) {
-            result.transactions[i].transfers[j].amount = this.fromAtomicUnits(result.transactions[i].transfers[j].amount)
+          for (var j = 0; j &lt; response.transactions[i].transfers.length; j++) {
+            response.transactions[i].transfers[j].amount = this.fromAtomicUnits(response.transactions[i].transfers[j].amount)
           }
         }
 
-        return resolve(result.transactions)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response.transactions
       })
-    })
   }
 
   /**
@@ -1057,31 +857,27 @@ class WalletAPI {
     startHeight = startHeight || false
     endHeight = endHeight || false
 
-    return new Promise((resolve, reject) => {
-      if (!address) return reject(new Error('Must supply wallet address'))
-      if (typeof startHeight === 'undefined') return reject(new Error('Must supply start height'))
+    if (!address) throw new Error('Must supply wallet address')
+    if (typeof startHeight === 'undefined') throw new Error('Must supply start height')
 
-      var url = util.format('/transactions/address/%s/%s', address, startHeight)
+    var url = util.format('/transactions/address/%s/%s', address, startHeight)
 
-      if (endHeight) {
-        url += util.format('/%s', endHeight)
-      }
+    if (endHeight) {
+      url += util.format('/%s', endHeight)
+    }
 
-      this._get(url).then((result) => {
-      /* Convert amounts to human readable amounts */
-        for (var i = 0; i &lt; result.transactions.length; i++) {
-          result.transactions[i].fee = this.fromAtomicUnits(result.transactions[i].fee)
+    return this._get(url)
+      .then(response => {
+        for (var i = 0; i &lt; response.transactions.length; i++) {
+          response.transactions[i].fee = this.fromAtomicUnits(response.transactions[i].fee)
 
-          for (var j = 0; j &lt; result.transactions[i].transfers.length; j++) {
-            result.transactions[i].transfers[j].amount = this.fromAtomicUnits(result.transactions[i].transfers[j].amount)
+          for (var j = 0; j &lt; response.transactions[i].transfers.length; j++) {
+            response.transactions[i].transfers[j].amount = this.fromAtomicUnits(response.transactions[i].transfers[j].amount)
           }
         }
 
-        return resolve(result.transactions)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response.transactions
       })
-    })
   }
 
   /**
@@ -1092,24 +888,20 @@ class WalletAPI {
    */
   unconfirmedTransactions (address) {
     address = address || false
+    const url = (address) ? util.format('/transactions/unconfirmed/%s', address) : '/transactions/unconfirmed'
 
-    return new Promise((resolve, reject) => {
-      const url = (address) ? util.format('/transactions/unconfirmed/%s', address) : '/transactions/unconfirmed'
-      this._get(url).then((result) => {
-        /* Convert amounts to human readable amounts */
-        for (var i = 0; i &lt; result.transactions.length; i++) {
-          result.transactions[i].fee = this.fromAtomicUnits(result.transactions[i].fee)
+    return this._get(url)
+      .then(response => {
+        for (var i = 0; i &lt; response.transactions.length; i++) {
+          response.transactions[i].fee = this.fromAtomicUnits(response.transactions[i].fee)
 
-          for (var j = 0; j &lt; result.transactions[i].transfers.length; j++) {
-            result.transactions[i].transfers[j].amount = this.fromAtomicUnits(result.transactions[i].transfers[j].amount)
+          for (var j = 0; j &lt; response.transactions[i].transfers.length; j++) {
+            response.transactions[i].transfers[j].amount = this.fromAtomicUnits(response.transactions[i].transfers[j].amount)
           }
         }
 
-        return resolve(result.transactions)
-      }).catch((err) => {
-        return reject(handleError(err))
+        return response.transactions
       })
-    })
   }
 
   /**
@@ -1129,21 +921,13 @@ class WalletAPI {
    * @returns {Promise&lt;WalletAPI.ValidationInfo[]>} resolves with validation information or rejects with error
    */
   validateAddress (address) {
-    return new Promise((resolve, reject) => {
-      this._post('/addresses/validate', {
-        address: address
-      }).then((result) => {
-        return resolve(result)
-      }).catch((err) => {
-        return reject(handleError(err))
-      })
-    })
+    return this._post('/addresses/validate', { address })
   }
 }
 
 function handleError (err) {
   const errorMessage = (err.error &amp;&amp; err.error.errorMessage) ? err.error.errorMessage : ''
-  if (errorMessage.indexOf('cannot get a mnemonic seed')) return new Error(errorMessage)
+  if (errorMessage.indexOf('cannot get a mnemonic seed') !== -1) return new Error(errorMessage)
 
   switch (err.statusCode) {
     case 400: return new Error('A parse error occured, or an error occured processing your request: ' + errorMessage)
@@ -1172,7 +956,7 @@ module.exports = WalletAPI
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 15:35:14 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 31 2019 09:17:55 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
