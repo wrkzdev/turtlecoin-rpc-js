@@ -373,45 +373,6 @@
 
         <tr>
             
-                <td class="name"><code>defaultFee</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0.1
-                
-                </td>
-            
-
-            <td class="description last">the default transaction fee to use</td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>decimalDivisor</code></td>
             
 
@@ -609,7 +570,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line28">line 28</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -717,7 +678,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line163">line 163</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -896,7 +857,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line182">line 182</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line198">line 198</a>
     </li></ul></dd>
     
 
@@ -1006,7 +967,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line200">line 200</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -1116,7 +1077,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line217">line 217</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -1443,7 +1404,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line231">line 231</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -1553,7 +1514,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line256">line 256</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1735,7 +1696,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line267">line 267</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -1894,7 +1855,166 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line284">line 284</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line300">line 300</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resolves if success else rejects with error
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="deletePreparedTransaction"><span class="type-signature">(async) </span>deletePreparedTransaction<span class="signature">(hash)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Deletes a previously prepared transaction
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hash</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the prepared transaction hash to delete</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -2053,7 +2173,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line297">line 297</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -2163,7 +2283,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line319">line 319</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line349">line 349</a>
     </li></ul></dd>
     
 
@@ -2377,7 +2497,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line330">line 330</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -2591,7 +2711,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line347">line 347</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line377">line 377</a>
     </li></ul></dd>
     
 
@@ -3027,7 +3147,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line370">line 370</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -3428,7 +3548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line396">line 396</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line426">line 426</a>
     </li></ul></dd>
     
 
@@ -3642,7 +3762,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line416">line 416</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line446">line 446</a>
     </li></ul></dd>
     
 
@@ -4078,7 +4198,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line438">line 438</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line468">line 468</a>
     </li></ul></dd>
     
 
@@ -4249,7 +4369,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line458">line 458</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line488">line 488</a>
     </li></ul></dd>
     
 
@@ -4408,7 +4528,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line475">line 475</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line505">line 505</a>
     </li></ul></dd>
     
 
@@ -4590,7 +4710,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line498">line 498</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -4917,7 +5037,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line515">line 515</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line545">line 545</a>
     </li></ul></dd>
     
 
@@ -4958,6 +5078,642 @@
     <dd>
         
 <span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="prepareAdvanced"><span class="type-signature">(async) </span>prepareAdvanced<span class="signature">(destinations, mixin<span class="signature-attributes">opt</span>, fee<span class="signature-attributes">opt</span>, sourceAddresses<span class="signature-attributes">opt</span>, paymentId<span class="signature-attributes">opt</span>, changeAddress<span class="signature-attributes">opt</span>, unlockTime<span class="signature-attributes">opt</span>, extraData<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Prepares an advanced transaction
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>destinations</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="WalletAPI.html#.TransferDestination">WalletAPI.TransferDestination</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the destinations of the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mixin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the number of mixins to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fee</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="WalletAPI.html#.FeeType">WalletAPI.FeeType</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the transaction fee to pay</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sourceAddresses</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the source addresses, if any, of the funds for the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paymentId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the payment ID to include with the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>changeAddress</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the address to send transaction change to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>unlockTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the unlock time of the new transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>extraData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">any extra data to be included in the tx_extra field of the transaction</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line569">line 569</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="prepareBasic"><span class="type-signature">(async) </span>prepareBasic<span class="signature">(address, amount, paymentId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Prepares a basic transaction
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>address</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the address to send funds to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the amount to send in the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paymentId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the payment ID to include with the transaction</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line639">line 639</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>></span>
 
 
     </dd>
@@ -5027,7 +5783,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line531">line 531</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line666">line 666</a>
     </li></ul></dd>
     
 
@@ -5206,7 +5962,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line542">line 542</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line677">line 677</a>
     </li></ul></dd>
     
 
@@ -5316,7 +6072,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line553">line 553</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line688">line 688</a>
     </li></ul></dd>
     
 
@@ -5374,7 +6130,7 @@
     
 
     
-    <h4 class="name" id="sendAdvanced"><span class="type-signature">(async) </span>sendAdvanced<span class="signature">(destinations, mixin<span class="signature-attributes">opt</span>, fee<span class="signature-attributes">opt</span>, sourceAddresses<span class="signature-attributes">opt</span>, paymentId<span class="signature-attributes">opt</span>, changeAddress<span class="signature-attributes">opt</span>, unlockTime<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    <h4 class="name" id="sendAdvanced"><span class="type-signature">(async) </span>sendAdvanced<span class="signature">(destinations, mixin<span class="signature-attributes">opt</span>, fee<span class="signature-attributes">opt</span>, sourceAddresses<span class="signature-attributes">opt</span>, paymentId<span class="signature-attributes">opt</span>, changeAddress<span class="signature-attributes">opt</span>, unlockTime<span class="signature-attributes">opt</span>, extraData<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>>}</span></h4>
     
 
     
@@ -5382,7 +6138,7 @@
 
 
 <div class="description">
-    Sends a transaction
+    Sends an advanced transaction
 </div>
 
 
@@ -5490,7 +6246,7 @@
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type"><a href="WalletAPI.html#.FeeType">WalletAPI.FeeType</a></span>
 
 
             
@@ -5510,7 +6266,7 @@
 
             
 
-            <td class="description last">the transaction fee to payload</td>
+            <td class="description last">the transaction fee to pay</td>
         </tr>
 
     
@@ -5646,6 +6402,42 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>extraData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">any extra data to be included in the tx_extra field of the transaction</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -5683,7 +6475,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line569">line 569</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line705">line 705</a>
     </li></ul></dd>
     
 
@@ -5712,7 +6504,7 @@
 
         
 <div class="param-desc">
-    resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
+    resolves with with an object containing the transaction hash and other data else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
 </div>
 
 
@@ -5723,7 +6515,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;string></span>
+<span class="param-type">Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>></span>
 
 
     </dd>
@@ -5741,7 +6533,7 @@
     
 
     
-    <h4 class="name" id="sendBasic"><span class="type-signature">(async) </span>sendBasic<span class="signature">(address, amount, paymentId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    <h4 class="name" id="sendBasic"><span class="type-signature">(async) </span>sendBasic<span class="signature">(address, amount, paymentId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>>}</span></h4>
     
 
     
@@ -5749,7 +6541,7 @@
 
 
 <div class="description">
-    Sends a transaction
+    Sends a basic transaction
 </div>
 
 
@@ -5916,7 +6708,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line616">line 616</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line775">line 775</a>
     </li></ul></dd>
     
 
@@ -5945,7 +6737,7 @@
 
         
 <div class="param-desc">
-    resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
+    resolves with with an object containing the transaction hash and other data else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
 </div>
 
 
@@ -5956,7 +6748,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;string></span>
+<span class="param-type">Promise.&lt;<a href="WalletAPI.html#.SendTransactionResult">WalletAPI.SendTransactionResult</a>></span>
 
 
     </dd>
@@ -6151,7 +6943,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line646">line 646</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line826">line 826</a>
     </li></ul></dd>
     
 
@@ -6261,7 +7053,166 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line672">line 672</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line852">line 852</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resolves with the transaction hash else rejects with error. This method resolving does not guarantee the completion of the transaction on the network.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="sendPrepared"><span class="type-signature">(async) </span>sendPrepared<span class="signature">(transactionHash)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sends a previously prepared transaction
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>transactionHash</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the hash of the prepared transaction</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line807">line 807</a>
     </li></ul></dd>
     
 
@@ -6494,7 +7445,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line685">line 685</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line865">line 865</a>
     </li></ul></dd>
     
 
@@ -6604,7 +7555,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line717">line 717</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line897">line 897</a>
     </li></ul></dd>
     
 
@@ -6763,7 +7714,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line726">line 726</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line906">line 906</a>
     </li></ul></dd>
     
 
@@ -6922,7 +7873,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line751">line 751</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line931">line 931</a>
     </li></ul></dd>
     
 
@@ -7081,7 +8032,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line775">line 775</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line955">line 955</a>
     </li></ul></dd>
     
 
@@ -7285,7 +8236,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line792">line 792</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line972">line 972</a>
     </li></ul></dd>
     
 
@@ -7520,7 +8471,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line827">line 827</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line1007">line 1007</a>
     </li></ul></dd>
     
 
@@ -7691,7 +8642,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line861">line 861</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line1041">line 1041</a>
     </li></ul></dd>
     
 
@@ -7850,7 +8801,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line895">line 895</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line1075">line 1075</a>
     </li></ul></dd>
     
 
@@ -7998,7 +8949,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line152">line 152</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -8176,7 +9127,184 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line168">line 168</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line184">line 184</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".FeeType">FeeType</h4>
+
+
+
+
+<div class="description">
+    A fee object describing what type of fee to Pay. If no `fee` is supplied, then `feePerByte` will be used
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fee</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">the static fee to use with the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>feePerByte</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1.953125
+                
+                </td>
+            
+
+            <td class="description last">the fee to pay for each byte of the resulting transaction size</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -8378,7 +9506,201 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line304">line 304</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line334">line 334</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".SendTransactionResult">SendTransactionResult</h4>
+
+
+
+
+<div class="description">
+    Send Transaction Result
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>transactionHash</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the hash of the transaction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fee</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the network fee paid</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>relayedToNetwork</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">whether the transaction was relayed to the network</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -8626,7 +9948,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line700">line 700</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line880">line 880</a>
     </li></ul></dd>
     
 
@@ -8951,7 +10273,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line732">line 732</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line912">line 912</a>
     </li></ul></dd>
     
 
@@ -9084,7 +10406,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line485">line 485</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line515">line 515</a>
     </li></ul></dd>
     
 
@@ -9286,7 +10608,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line879">line 879</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line1059">line 1059</a>
     </li></ul></dd>
     
 
@@ -9493,7 +10815,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line242">line 242</a>
+        <a href="walletapi-rpc.js.html">walletapi-rpc.js</a>, <a href="walletapi-rpc.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -9529,7 +10851,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 31 2019 09:17:55 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Jan 02 2020 18:07:30 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
